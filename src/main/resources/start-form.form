@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 2,
+  "components": [
+    {
+      "label": "Structured Query",
+      "type": "textfield",
+      "id": "Field_09tivp8",
+      "key": "structured-query"
+    }
+  ],
+  "type": "default",
+  "id": "start-form"
+}
