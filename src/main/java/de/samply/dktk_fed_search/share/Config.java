@@ -1,13 +1,11 @@
 package de.samply.dktk_fed_search.share;
 
-import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import ca.uhn.fhir.context.FhirContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.numcodex.sq2cql.model.ConceptNode;
+import de.numcodex.sq2cql.model.TermCodeNode;
 import de.numcodex.sq2cql.model.Mapping;
-import de.samply.dktk_fed_search.share.service.CreateMeasureResourcesDelegate;
 import de.samply.dktk_fed_search.share.util.Either;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,16 +36,22 @@ public class Config {
     try (InputStream in = Config.class.getResourceAsStream("term-code-mapping.json")) {
       return jsonMapper.readerForListOf(Mapping.class).readValue(in);
     } catch (IOException e) {
+      logger.error(
+          "I/O error while reading the file `term-code-mapping.json` from classpath. Proceeding with an empty list of mappings.",
+          e);
       return List.of();
     }
   }
 
   @Bean
-  public ConceptNode readConceptTree() {
+  public TermCodeNode readConceptTree() {
     try (InputStream in = Config.class.getResourceAsStream("term-code-tree.json")) {
-      return jsonMapper.readerFor(ConceptNode.class).readValue(in);
+      return jsonMapper.readerFor(TermCodeNode.class).readValue(in);
     } catch (IOException e) {
-      return ConceptNode.of();
+      logger.error(
+          "I/O error while reading the file `term-code-tree.json` from classpath. Proceeding with an empty term code tree.",
+          e);
+      return TermCodeNode.of();
     }
   }
 
@@ -63,14 +67,14 @@ public class Config {
     try (InputStream in = Config.class.getResourceAsStream(name)) {
       if (in == null) {
         logger.error("file `{}` not found in classpath", name);
-        return Either.left(format("file `%s` not found in classpath", name));
+        return Either.left("file `%s` not found in classpath".formatted(name));
       } else {
         logger.info("read file `{}` from classpath", name);
         return Either.right(new String(in.readAllBytes(), UTF_8));
       }
     } catch (IOException e) {
       logger.error("error while reading the file `{}` from classpath", name, e);
-      return Either.left(format("error while reading the file `%s` from classpath", name));
+      return Either.left("error while reading the file `%s` from classpath".formatted(name));
     }
   }
 

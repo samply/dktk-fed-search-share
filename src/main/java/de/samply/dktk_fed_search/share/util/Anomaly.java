@@ -1,6 +1,7 @@
 package de.samply.dktk_fed_search.share.util;
 
 import de.samply.dktk_fed_search.share.util.Anomaly.Fault;
+import de.samply.dktk_fed_search.share.util.Anomaly.Forbidden;
 import de.samply.dktk_fed_search.share.util.Anomaly.NotFound;
 
 /**
@@ -8,7 +9,7 @@ import de.samply.dktk_fed_search.share.util.Anomaly.NotFound;
  *
  * @see <a href="https://github.com/cognitect-labs/anomalies">cognitect.anomalies</a>
  */
-public sealed interface Anomaly permits NotFound, Fault {
+public sealed interface Anomaly permits Forbidden, NotFound, Fault {
 
   /**
    * Returns the message of this anomaly.
@@ -16,6 +17,13 @@ public sealed interface Anomaly permits NotFound, Fault {
    * @return the message
    */
   String msg();
+
+  /**
+   * Something was not found, like 404 in HTTP.
+   */
+  record Forbidden(String msg) implements Anomaly {
+
+  }
 
   /**
    * Something was not found, like 404 in HTTP.

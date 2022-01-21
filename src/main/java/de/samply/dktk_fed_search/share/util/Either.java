@@ -49,6 +49,10 @@ public sealed interface Either<L, R> permits Left, Right {
     return optional.isPresent() ? new Right<>(optional.get()) : new Left<>(left);
   }
 
+  static <L, R> Either<L, R> ofNullable(R nullable, Supplier<L> leftSupplier) {
+    return nullable == null ? left(leftSupplier.get()) : right(nullable);
+  }
+
   /**
    * Maps the value of this Either if it is a Right, performs no operation if this is a Left.
    *

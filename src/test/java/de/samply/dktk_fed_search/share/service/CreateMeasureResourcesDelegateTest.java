@@ -67,7 +67,7 @@ class CreateMeasureResourcesDelegateTest {
         Either.right(STRUCTURED_QUERY));
     when(translator.toCql(STRUCTURED_QUERY)).thenReturn(LIBRARY);
     when(randomUriSupplier.get()).thenReturn(LIBRARY_URI, MEASURE_URI);
-    when(fhirClient.transaction(any(Bundle.class))).thenReturn(Either.right(new Bundle()));
+    when(fhirClient.transact(any(Bundle.class))).thenReturn(Either.right(new Bundle()));
 
     delegate.execute(execution);
 
@@ -82,11 +82,11 @@ class CreateMeasureResourcesDelegateTest {
         Either.right(STRUCTURED_QUERY));
     when(translator.toCql(STRUCTURED_QUERY)).thenReturn(LIBRARY);
     when(randomUriSupplier.get()).thenReturn(LIBRARY_URI, MEASURE_URI);
-    when(fhirClient.transaction(any(Bundle.class))).thenReturn(Either.left(ERROR_MSG));
+    when(fhirClient.transact(any(Bundle.class))).thenReturn(Either.left(ERROR_MSG));
 
-    String message = assertThrows(Exception.class, () -> delegate.execute(execution)).getMessage();
+    var error = assertThrows(Exception.class, () -> delegate.execute(execution));
 
-    assertEquals(ERROR_MSG, message);
+    assertEquals(ERROR_MSG, error.getMessage());
     verify(execution, never()).setVariable(Variables.MEASURE_URI, MEASURE_URI);
   }
 }

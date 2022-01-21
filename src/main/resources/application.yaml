@@ -1,6 +1,9 @@
 app:
+  broker:
+    baseUrl: http://localhost:8090/broker/rest/searchbroker
+    authToken: foo
   store:
-    url: http://localhost:8090/fhir
+    baseUrl: http://localhost:8100/fhir
 camunda.bpm:
   admin-user:
     id: demo

@@ -4,15 +4,16 @@ import java.util.stream.Collector;
 
 public class Collectors {
 
-  public static <T> Collector<T, ?, T> toSingleton() {
+  /**
+   * Returns a Collector that accumulates the input elements and returns the first one.
+   *
+   * @param <T> the type of input elements to the collector.
+   * @return a Collector which collects all the input elements and return the first one.
+   */
+  public static <T> Collector<T, ?, T> first() {
     return java.util.stream.Collectors.collectingAndThen(
         java.util.stream.Collectors.toList(),
-        list -> {
-          if (list.size() != 1) {
-            throw new IllegalStateException();
-          }
-          return list.get(0);
-        }
+        list -> list.get(0)
     );
   }
 }

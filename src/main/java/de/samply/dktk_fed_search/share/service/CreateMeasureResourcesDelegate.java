@@ -1,6 +1,7 @@
 package de.samply.dktk_fed_search.share.service;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.hl7.fhir.r4.model.Bundle.BundleType.TRANSACTION;
 import static org.hl7.fhir.r4.model.Bundle.HTTPVerb.POST;
 
 import de.numcodex.sq2cql.PrintContext;
@@ -22,6 +23,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+/**
+ * Takes a structured query from {@link Variables#getStructuredQuery() variables}, translates it to
+ * CQL, creates a Measure and Library resource on the FHIR server and puts the canonical URI of the
+ * Measure into variables.
+ */
 @Component
 public class CreateMeasureResourcesDelegate implements JavaDelegate {
 
@@ -31,16 +37,16 @@ public class CreateMeasureResourcesDelegate implements JavaDelegate {
   private final Reader<StructuredQuery> structuredQueryReader;
   private final Translator translator;
   private final Supplier<String> randomUriSupplier;
-  private final FhirClient fhirClient;
+  private final FhirClient client;
   private final Config config;
 
   public CreateMeasureResourcesDelegate(Reader<StructuredQuery> structuredQueryReader,
-      Translator translator, Supplier<String> randomUriSupplier, FhirClient fhirClient,
+      Translator translator, Supplier<String> randomUriSupplier, FhirClient client,
       Config config) {
     this.structuredQueryReader = Objects.requireNonNull(structuredQueryReader);
     this.translator = Objects.requireNonNull(translator);
-    this.randomUriSupplier = randomUriSupplier;
-    this.fhirClient = Objects.requireNonNull(fhirClient);
+    this.randomUriSupplier = Objects.requireNonNull(randomUriSupplier);
+    this.client = Objects.requireNonNull(client);
     this.config = Objects.requireNonNull(config);
   }
 
@@ -51,7 +57,7 @@ public class CreateMeasureResourcesDelegate implements JavaDelegate {
       var libraryUri = randomUriSupplier.get();
       var measureUri = randomUriSupplier.get();
       return createBundle(cql, libraryUri, measureUri)
-          .flatMap(fhirClient::transaction)
+          .flatMap(client::transact)
           .map(b -> measureUri);
     }).orElseThrow(Exception::new);
     Variables.of(execution).setMeasureUri(uri);
@@ -77,6 +83,7 @@ public class CreateMeasureResourcesDelegate implements JavaDelegate {
 
   private static Bundle createBundle1(Library library, Measure measure) {
     var bundle = new Bundle();
+    bundle.setType(TRANSACTION);
     bundle.addEntry().setResource(library).getRequest().setMethod(POST).setUrl("Library");
     bundle.addEntry().setResource(measure).getRequest().setMethod(POST).setUrl("Measure");
     return bundle;

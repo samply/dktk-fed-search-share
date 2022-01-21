@@ -23,8 +23,8 @@ class ConfigTest {
 
   @Test
   void readConceptTree() {
-    var conceptNode = config.readConceptTree();
+    var TermCodeNode = config.readConceptTree();
 
-    System.out.println(conceptNode);
+    System.out.println(TermCodeNode);
   }
 }
