@@ -1,0 +1,49 @@
+{
+  "env": {
+    "name": "dktk"
+  },
+  "api": {
+    "baseUrl": "/api"
+  },
+  "uiBackendApi": {
+    "baseUrl": "http://localhost:8092/api/v1"
+  },
+  "uiSearchbrokerApi": {
+    "baseUrl": "http://localhost:8092/broker/rest/searchbroker/structured-query/"
+  },
+  "auth": {
+    "baseUrl": "http://localhost:8092",
+    "realm": "codex-develop",
+    "clientId": "feasibility-gui"
+  },
+  "legal": {
+    "version": "0.9.0",
+    "copyrightOwner": "DKTK Team"
+  },
+  "features": {
+    "v2": {
+      "multiplevaluedefinitions": true,
+      "multiplegroups": false,
+      "dependentgroups": false,
+      "timerestriction": false
+    },
+    "extra": {
+      "displayvaluefiltericon": false,
+      "showoptionspage": true
+    }
+  },
+  "options": {
+    "pollingtimeinseconds": 10,
+    "pollingintervallinseconds": 1,
+    "lowerboundarypatientresult": 0
+  },
+  "mock": {
+    "terminology": false,
+    "query": false,
+    "result": false
+  },
+  "stylesheet": "codexTheme",
+  "fhirport": "8082",
+  "dataset": "codex",
+  "queryVersion": "v2"
+}

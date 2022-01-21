@@ -1,0 +1,50 @@
+{
+  "id": "9f608712-996e-767e-cfa3-b2c315a01004",
+  "display": "Person",
+  "leaf": false,
+  "selectable": false,
+  "termCodes": [
+    {
+      "code": "person",
+      "display": "Person",
+      "system": "http://dktk.dkfz.de/fhir/search"
+    }
+  ],
+  "children": [
+    {
+      "id": "f564f7fd-222c-1827-5115-5b4b11970645",
+      "display": "Vitalstatus",
+      "leaf": true,
+      "selectable": true,
+      "termCodes": [
+        {
+          "code": "75186-7",
+          "display": "Vitalstatus",
+          "system": "http://loinc.org"
+        }
+      ],
+      "timeRestrictionAllowed": false,
+      "valueDefinition": {
+        "type": "concept",
+        "precision": 1,
+        "selectableConcepts": [
+          {
+            "code": "lebend",
+            "display": "lebend",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/VitalstatusCS"
+          },
+          {
+            "code": "verstorben",
+            "display": "verstorben",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/VitalstatusCS"
+          },
+          {
+            "code": "unbekannt",
+            "display": "unbekannt",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/VitalstatusCS"
+          }
+        ]
+      }
+    }
+  ]
+}

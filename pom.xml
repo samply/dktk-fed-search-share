@@ -4,74 +4,82 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.example</groupId>
+  <parent>
+    <artifactId>parent</artifactId>
+    <groupId>de.samply</groupId>
+    <version>11.1.1</version>
+  </parent>
+
   <artifactId>dktk-fed-search-share</artifactId>
-  <version>1.0-SNAPSHOT</version>
-
-  <properties>
-    <camunda.spring-boot.version>7.16.0</camunda.spring-boot.version>
-    <spring-boot.version>2.5.4</spring-boot.version>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
-  </properties>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-dependencies</artifactId>
-        <version>${spring-boot.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
 
   <dependencies>
     <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-webflux</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jdbc</artifactId>
+    </dependency>
+
+    <!--<dependency>
       <groupId>org.camunda.bpm.springboot</groupId>
       <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
       <version>${camunda.spring-boot.version}</version>
-    </dependency>
+    </dependency>-->
 
     <dependency>
       <groupId>org.camunda.bpm.springboot</groupId>
       <artifactId>camunda-bpm-spring-boot-starter-rest</artifactId>
       <version>${camunda.spring-boot.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>jaxb-impl</artifactId>
+          <groupId>com.sun.xml.bind</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-impl</artifactId>
-      <version>3.0.1</version>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
     </dependency>
 
     <dependency>
       <groupId>de.numcodex</groupId>
       <artifactId>sq2cql</artifactId>
-      <version>0.1.4-SNAPSHOT</version>
+      <version>0.1.15</version>
     </dependency>
 
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
       <artifactId>hapi-fhir-client</artifactId>
-      <version>5.6.0</version>
+      <version>${hapi.version}</version>
     </dependency>
 
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
       <artifactId>hapi-fhir-structures-r4</artifactId>
-      <version>5.6.0</version>
+      <version>${hapi.version}</version>
+    </dependency>
+
+    <!-- Test Dependencies -->
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
+      <artifactId>junit-jupiter-api</artifactId>
       <scope>test</scope>
     </dependency>
 
@@ -86,16 +94,128 @@
       <artifactId>mockito-junit-jupiter</artifactId>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>testcontainers</artifactId>
+      <scope>test</scope>
+      <version>${testcontainers.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+      <version>${testcontainers.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>test</scope>
+      <version>${testcontainers.version}</version>
+    </dependency>
+
+    <!--<dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+      <scope>test</scope>
+    </dependency>-->
+
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-resolver-dns-native-macos</artifactId>
+      <classifier>osx-aarch_64</classifier>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <description>
+    This service acts as middleware between a Searchbroker and a Blaze FHIR Server.
+  </description>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <name>DKTK Federated Search Share</name>
+
+  <properties>
+    <camunda.spring-boot.version>7.16.0</camunda.spring-boot.version>
+    <hapi.version>5.6.2</hapi.version>
+    <maven-compiler-plugin.java.version>17</maven-compiler-plugin.java.version>
+    <maven-javadoc-plugin.version>3.3.0</maven-javadoc-plugin.version>
+    <maven.javadoc.skip>true</maven.javadoc.skip>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <sonar.organization>samply</sonar.organization>
+    <spring-boot.version>2.5.9</spring-boot.version>
+    <version.maven.plugin.checkstyle>3.1.2</version.maven.plugin.checkstyle>
+    <testcontainers.version>1.16.3</testcontainers.version>
+  </properties>
+
+  <url>https://github.com/samply/dktk-fed-search-share</url>
+
+  <version>0.1.0-SNAPSHOT</version>
+
   <build>
+    <finalName>dktk-fed-search-share</finalName>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <configuration>
+            <configLocation>google_checks.xml</configLocation>
+            <consoleOutput>true</consoleOutput>
+            <encoding>UTF-8</encoding>
+            <failsOnError>true</failsOnError>
+            <linkXRef>false</linkXRef>
+            <violationSeverity>warning</violationSeverity>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <artifactId>checkstyle</artifactId>
+              <groupId>com.puppycrawl.tools</groupId>
+              <version>9.1</version>
+            </dependency>
+          </dependencies>
+          <executions>
+            <execution>
+              <goals>
+                <goal>check</goal>
+              </goals>
+              <id>validate</id>
+              <phase>validate</phase>
+            </execution>
+          </executions>
+          <groupId>org.apache.maven.plugins</groupId>
+          <version>${version.maven.plugin.checkstyle}</version>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <version>${spring-boot.version}</version>
         <configuration>
-          <layout>ZIP</layout>
+          <mainClass>de.samply.dktk.fedsearch.share.DktkFedSearchApplication</mainClass>
         </configuration>
         <executions>
           <execution>
@@ -111,7 +231,7 @@
   <repositories>
     <repository>
       <id>codex</id>
-      <name>GitHub HiGHmed Apache Maven Packages</name>
+      <name>GitHub CODEX Apache Maven Packages</name>
       <url>https://maven.pkg.github.com/num-codex/codex-sq2cql</url>
       <releases>
         <enabled>true</enabled>

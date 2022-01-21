@@ -1,6 +1,18 @@
 app:
+  broker:
+    baseUrl: http://localhost:8090/broker/rest/searchbroker
+    authToken: foo
+    mail: foo
   store:
-    url: http://localhost:8090/fhir
+    baseUrl: http://localhost:8100/fhir
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/dktk-fed-search-share
+    username: dktk-fed-search-share
+    password: dktk-fed-search-share
+  sql:
+    init:
+      mode: always
 camunda.bpm:
   admin-user:
     id: demo
