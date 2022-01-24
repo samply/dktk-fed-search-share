@@ -7,8 +7,8 @@ import org.camunda.bpm.engine.delegate.VariableScope;
 
 public final class Variables {
 
-  public static final String NEW_INQUIRY_IDS = "new-inquiry-ids";
-  public static final String INQUIRY_ID = "inquiry-id";
+  public static final String NEW_INQUIRY_IDS = "newInquiryIds";
+  public static final String INQUIRY_ID = "inquiryId";
   public static final String STRUCTURED_QUERY = "structured-query";
   public static final String MEASURE_URI = "measure-uri";
   public static final String COUNT = "count";

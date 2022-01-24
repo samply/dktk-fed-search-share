@@ -61,7 +61,7 @@
     <dependency>
       <groupId>de.numcodex</groupId>
       <artifactId>sq2cql</artifactId>
-      <version>0.1.8</version>
+      <version>0.1.9</version>
     </dependency>
 
     <dependency>
@@ -74,6 +74,12 @@
       <groupId>ca.uhn.hapi.fhir</groupId>
       <artifactId>hapi-fhir-structures-r4</artifactId>
       <version>${hapi.version}</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -124,6 +130,13 @@
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <artifactId>netty-resolver-dns-native-macos</artifactId>
+      <classifier>osx-aarch_64</classifier>
+      <groupId>io.netty</groupId>
       <scope>test</scope>
     </dependency>
   </dependencies>

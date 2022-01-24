@@ -30,6 +30,7 @@ public class EvaluateMeasureDelegate implements JavaDelegate {
         .flatMap(client::evaluateMeasure)
         .map(report -> report.getGroupFirstRep().getPopulationFirstRep().getCount())
         .orElseThrow(Exception::new);
+    System.out.println("count = " + count);
     Variables.of(execution).setCount(count);
   }
 }

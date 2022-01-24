@@ -2,15 +2,14 @@
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0rkuicf" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:process id="DktkFedSearch" name="DKTK Federated Search" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1" name="Every 10 seconds" camunda:formRef="" camunda:formRefBinding="latest">
-      <bpmn:outgoing>Flow_1rgqjly</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1ktrm0i</bpmn:outgoing>
       <bpmn:timerEventDefinition>
         <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">R/PT10S</bpmn:timeCycle>
       </bpmn:timerEventDefinition>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="Flow_1rgqjly" sourceRef="StartEvent_1" targetRef="Activity_0vxwnio" />
     <bpmn:subProcess id="Activity_0vxwnio">
-      <bpmn:incoming>Flow_1rgqjly</bpmn:incoming>
-      <bpmn:multiInstanceLoopCharacteristics camunda:collection="${new-inquiry-ids}" camunda:elementVariable="inquiry-id" />
+      <bpmn:incoming>Flow_0190ym2</bpmn:incoming>
+      <bpmn:multiInstanceLoopCharacteristics camunda:collection="${newInquiryIds}" camunda:elementVariable="inquiryId" />
       <bpmn:startEvent id="Event_0gv98wt">
         <bpmn:outgoing>Flow_15936la</bpmn:outgoing>
       </bpmn:startEvent>
@@ -29,12 +28,22 @@
         <bpmn:incoming>Flow_049iadq</bpmn:incoming>
       </bpmn:serviceTask>
     </bpmn:subProcess>
+    <bpmn:sequenceFlow id="Flow_1ktrm0i" sourceRef="StartEvent_1" targetRef="Activity_01gg0lc" />
+    <bpmn:serviceTask id="Activity_01gg0lc" name="Fetch new Inquiry Ids" camunda:class="de.samply.dktk_fed_search.share.service.FetchNewInquiryIdsDelegate">
+      <bpmn:incoming>Flow_1ktrm0i</bpmn:incoming>
+      <bpmn:outgoing>Flow_0190ym2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0190ym2" sourceRef="Activity_01gg0lc" targetRef="Activity_0vxwnio" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="DktkFedSearch">
-      <bpmndi:BPMNEdge id="Flow_1rgqjly_di" bpmnElement="Flow_1rgqjly">
+      <bpmndi:BPMNEdge id="Flow_1ktrm0i_di" bpmnElement="Flow_1ktrm0i">
         <di:waypoint x="208" y="160" />
-        <di:waypoint x="270" y="160" />
+        <di:waypoint x="290" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0190ym2_di" bpmnElement="Flow_0190ym2">
+        <di:waypoint x="390" y="160" />
+        <di:waypoint x="450" y="160" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="172" y="142" width="36" height="36" />
@@ -42,32 +51,35 @@
           <dc:Bounds x="146" y="118" width="88" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0vxwnio_di" bpmnElement="Activity_0vxwnio" isExpanded="true">
-        <dc:Bounds x="270" y="80" width="600" height="380" />
+      <bpmndi:BPMNShape id="Activity_1p4xiho_di" bpmnElement="Activity_01gg0lc">
+        <dc:Bounds x="290" y="120" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_15936la_di" bpmnElement="Flow_15936la">
-        <di:waypoint x="346" y="160" />
-        <di:waypoint x="380" y="160" />
+      <bpmndi:BPMNShape id="Activity_0vxwnio_di" bpmnElement="Activity_0vxwnio" isExpanded="true">
+        <dc:Bounds x="450" y="120" width="600" height="380" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_049iadq_di" bpmnElement="Flow_049iadq">
+        <di:waypoint x="800" y="200" />
+        <di:waypoint x="840" y="200" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1fydeqs_di" bpmnElement="Flow_1fydeqs">
-        <di:waypoint x="480" y="160" />
-        <di:waypoint x="520" y="160" />
+        <di:waypoint x="660" y="200" />
+        <di:waypoint x="700" y="200" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_049iadq_di" bpmnElement="Flow_049iadq">
-        <di:waypoint x="620" y="160" />
-        <di:waypoint x="660" y="160" />
+      <bpmndi:BPMNEdge id="Flow_15936la_di" bpmnElement="Flow_15936la">
+        <di:waypoint x="526" y="200" />
+        <di:waypoint x="560" y="200" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_0gv98wt_di" bpmnElement="Event_0gv98wt">
-        <dc:Bounds x="310" y="142" width="36" height="36" />
+        <dc:Bounds x="490" y="182" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_06t6i8v_di" bpmnElement="Activity_1df0ejr">
-        <dc:Bounds x="380" y="120" width="100" height="80" />
+        <dc:Bounds x="560" y="160" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1yrrxj9_di" bpmnElement="Activity_1vjh9w0">
-        <dc:Bounds x="520" y="120" width="100" height="80" />
+        <dc:Bounds x="700" y="160" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0kbraf0_di" bpmnElement="Activity_1hgfzgg">
-        <dc:Bounds x="660" y="120" width="100" height="80" />
+        <dc:Bounds x="840" y="160" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

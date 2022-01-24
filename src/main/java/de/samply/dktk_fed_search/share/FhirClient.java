@@ -5,7 +5,6 @@ import ca.uhn.fhir.rest.gclient.IOperationUntypedWithInput;
 import ca.uhn.fhir.rest.gclient.ITransactionTyped;
 import ca.uhn.fhir.rest.param.DateParam;
 import ca.uhn.fhir.rest.param.StringParam;
-import de.samply.dktk_fed_search.share.service.EvaluateMeasureDelegate;
 import de.samply.dktk_fed_search.share.util.Either;
 import java.util.Objects;
 import org.hl7.fhir.r4.model.Bundle;
@@ -29,16 +28,16 @@ public class FhirClient {
 
   public Either<String, Bundle> transact(Bundle bundle) {
     logger.info("Transact a bundle.");
-    return Either.tryGet(() -> createTransaction(bundle).execute())
+    return Either.tryGet(() -> createTransactionOperation(bundle).execute())
         .mapLeft(Exception::getMessage);
   }
 
-  private ITransactionTyped<Bundle> createTransaction(Bundle bundle) {
+  private ITransactionTyped<Bundle> createTransactionOperation(Bundle bundle) {
     return client.transaction().withBundle(bundle).encodedJson();
   }
 
   public Either<String, MeasureReport> evaluateMeasure(String measureUri) {
-    logger.info("Evaluate measure `{}`.", measureUri);
+    logger.info("Evaluate measure with canonical URI `{}`.", measureUri);
     return Either.tryGet(() -> createOperation(measureUri).execute())
         .mapLeft(Exception::getMessage);
   }
