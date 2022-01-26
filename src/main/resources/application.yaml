@@ -2,6 +2,7 @@ app:
   broker:
     baseUrl: http://localhost:8090/broker/rest/searchbroker
     authToken: foo
+    mail: foo
   store:
     baseUrl: http://localhost:8100/fhir
 camunda.bpm:
