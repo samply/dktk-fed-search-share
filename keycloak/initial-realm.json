@@ -1306,17 +1306,17 @@
       "id": "d2b31de6-0333-468a-a104-2ff8f759d786",
       "clientId": "feasibility-gui",
       "name": "feasibility gui",
-      "rootUrl": "https://feasibility.forschen-fuer-gesundheit.de",
-      "baseUrl": "https://feasibility.forschen-fuer-gesundheit.de",
+      "rootUrl": "http://localhost:8092",
+      "baseUrl": "http://localhost:8092",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "https://feasibility.forschen-fuer-gesundheit.de"
+        "http://localhost:8092/home"
       ],
       "webOrigins": [
-        "https://feasibility.forschen-fuer-gesundheit.de"
+        "http://localhost:8092"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -2048,8 +2048,8 @@
     "contentSecurityPolicyReportOnly": "",
     "xContentTypeOptions": "nosniff",
     "xRobotsTag": "none",
-    "xFrameOptions": "ALLOW-FROM https://feasibility.forschen-fuer-gesundheit.de",
-    "contentSecurityPolicy": "frame-src 'self'; frame-ancestors 'self'; https://feasibility.forschen-fuer-gesundheit.de",
+    "xFrameOptions": "ALLOW-FROM http://localhost:8092",
+    "contentSecurityPolicy": "frame-src 'self'; frame-ancestors 'self'; http://localhost:8092",
     "xXSSProtection": "1; mode=block",
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
