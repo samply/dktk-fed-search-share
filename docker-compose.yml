@@ -31,12 +31,11 @@ services:
       LOG_LEVEL: "debug"
     ports:
     - "8090:8080"
-    - "8091:8081"
     volumes:
     - "blaze-data:/app/data"
 
   dktk-fed-search-share:
-    image: "ghcr.io/samply/dktk-fed-search-share:pr-wip"
+    image: "ghcr.io/samply/dktk-fed-search-share:pr-1"
     environment:
       APP_BROKER_BASEURL: "http://broker:8080/broker/rest/searchbroker"
       APP_STORE_BASEURL: "http://blaze:8080/fhir"
@@ -108,7 +107,6 @@ services:
       PROXY_ADDRESS_FORWARDING: "true"
       KEYCLOAK_IMPORT: /tmp/initial-realm.json
       KEYCLOAK_FRONTEND_URL: http://localhost:8092/auth
-      KEYCLOAK_LOGLEVEL: DEBUG
     volumes:
     - ./keycloak/initial-realm.json:/tmp/initial-realm.json
     depends_on:

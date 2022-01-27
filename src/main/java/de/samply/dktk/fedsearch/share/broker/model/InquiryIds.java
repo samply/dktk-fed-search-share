@@ -1,5 +1,6 @@
 package de.samply.dktk.fedsearch.share.broker.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 import javax.xml.bind.annotation.XmlElement;
@@ -12,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class InquiryIds {
 
   @XmlElement(name = "Inquiry")
-  public List<InquiryId> inquiryIds = List.of();
+  public List<InquiryId> inquiryIds = new ArrayList<>();
 
   @Override
   public String toString() {
