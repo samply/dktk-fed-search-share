@@ -4,6 +4,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <parent>
+    <artifactId>parent</artifactId>
+    <groupId>de.samply</groupId>
+    <version>11.1.1</version>
+  </parent>
+
   <build>
     <finalName>dktk-fed-search-share</finalName>
 
@@ -94,13 +100,6 @@
       <artifactId>jaxb-runtime</artifactId>
       <groupId>org.glassfish.jaxb</groupId>
     </dependency>
-
-    <!--<dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-impl</artifactId>
-      <version>3.0.1</version>
-    </dependency>-->
-
 
     <dependency>
       <groupId>de.numcodex</groupId>
@@ -195,12 +194,6 @@
     </license>
   </licenses>
   <name>DKTK Federated Search Share</name>
-
-  <parent>
-    <artifactId>parent</artifactId>
-    <groupId>de.samply</groupId>
-    <version>11.1.1</version>
-  </parent>
 
   <properties>
     <camunda.spring-boot.version>7.16.0</camunda.spring-boot.version>

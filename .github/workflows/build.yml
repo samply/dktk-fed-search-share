@@ -25,6 +25,11 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
+    - uses: s4u/maven-settings-action@v2.4.0
+      with:
+        servers: |
+          [{"id": "codex", "username": "${{ github.actor }}", "password": "${{ secrets.GITHUB_TOKEN }}"}]
+
     - name: Check out Git repository
       uses: actions/checkout@v2
 
@@ -51,6 +56,11 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '17'
+
+    - uses: s4u/maven-settings-action@v2.4.0
+      with:
+        servers: |
+          [{"id": "codex", "username": "${{ github.actor }}", "password": "${{ secrets.GITHUB_TOKEN }}"}]
 
     - name: Check out Git repository
       uses: actions/checkout@v2

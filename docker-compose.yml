@@ -18,6 +18,8 @@ services:
       POSTGRES_DB: "searchbroker"
       POSTGRES_USER: "searchbroker"
       POSTGRES_PASS: "searchbroker"
+      STRUCTURED_QUERY_USERNAME: "test123"
+      STRUCTURED_QUERY_PASSWORD: "test123"
     depends_on:
     - broker-db
 
@@ -34,7 +36,7 @@ services:
     - "blaze-data:/app/data"
 
   dktk-fed-search-share:
-    build: .
+    image: "ghcr.io/samply/dktk-fed-search-share:pr-wip"
     environment:
       APP_BROKER_BASEURL: "http://broker:8080/broker/rest/searchbroker"
       APP_STORE_BASEURL: "http://blaze:8080/fhir"

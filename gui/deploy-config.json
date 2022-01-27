@@ -6,7 +6,10 @@
     "baseUrl": "/api"
   },
   "uiBackendApi": {
-    "baseUrl": "http://localhost:8092/searchbroker"
+    "baseUrl": "http://localhost:8092/api/v1"
+  },
+  "uiSearchbrokerApi": {
+    "baseUrl": "http://localhost:8092/searchbroker/structured-query/"
   },
   "auth": {
     "baseUrl": "http://localhost:8092",
@@ -22,11 +25,11 @@
       "multiplevaluedefinitions": true,
       "multiplegroups": false,
       "dependentgroups": false,
-      "timerestriction": true
+      "timerestriction": false
     },
     "extra": {
       "displayvaluefiltericon": false,
-      "showoptionspage": false
+      "showoptionspage": true
     }
   },
   "options": {
