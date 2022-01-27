@@ -42,9 +42,6 @@ jobs:
     - name: Test with Maven
       run: mvn -B package
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
-
 
   build:
     needs: test
@@ -72,7 +69,7 @@ jobs:
         key: maven-${{ hashFiles('pom.xml') }}
 
     - name: Build with Maven
-      run: mvn -B package -DskipTests -Dmaven.javadoc.skip=true
+      run: mvn -B package -DskipTests
 
     - name: Login to GitHub Docker Registry
       uses: docker/login-action@v1
