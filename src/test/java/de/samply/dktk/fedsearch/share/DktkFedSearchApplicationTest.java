@@ -30,7 +30,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectReader;
 @SpringBootTest
 @Testcontainers
 @SuppressWarnings("NewClassNamingConvention")
-class DktkFedSearchApplicationIT {
+class DktkFedSearchApplicationTest {
 
   private static final String AUTH_TOKEN = "token-131538";
   private static final String MAIL = "foo@bar.de";
@@ -111,11 +111,11 @@ class DktkFedSearchApplicationIT {
 
   @DynamicPropertySource
   static void registerPgProperties(DynamicPropertyRegistry registry) {
-    registry.add("app.broker.baseUrl", DktkFedSearchApplicationIT::brokerBaseUrl);
+    registry.add("app.broker.baseUrl", DktkFedSearchApplicationTest::brokerBaseUrl);
     registry.add("app.broker.authToken", () -> AUTH_TOKEN);
     registry.add("app.broker.mail", () -> MAIL);
-    registry.add("app.store.baseUrl", DktkFedSearchApplicationIT::storeBaseUrl);
-    registry.add("spring.datasource.url", DktkFedSearchApplicationIT::springDataSourceUrl);
+    registry.add("app.store.baseUrl", DktkFedSearchApplicationTest::storeBaseUrl);
+    registry.add("spring.datasource.url", DktkFedSearchApplicationTest::springDataSourceUrl);
   }
 
   private static void createOneInquiry() throws SQLException {

@@ -40,7 +40,7 @@ jobs:
         key: maven-${{ hashFiles('pom.xml') }}
 
     - name: Test with Maven
-      run: mvn -B verify
+      run: mvn -B package
 
 
   build:

@@ -28,7 +28,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectReader;
 
 @Testcontainers
 @SuppressWarnings("NewClassNamingConvention")
-class BrokerClientIT {
+class BrokerClientTest {
 
   private static final String AUTH_TOKEN = "token-131538";
   private static final String STRUCTURED_QUERY = "structured-query-175656";
