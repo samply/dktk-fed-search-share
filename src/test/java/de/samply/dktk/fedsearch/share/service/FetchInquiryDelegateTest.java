@@ -10,7 +10,10 @@ import static org.mockito.Mockito.when;
 import de.samply.dktk.fedsearch.share.BrokerClient;
 import de.samply.dktk.fedsearch.share.Variables;
 import de.samply.dktk.fedsearch.share.broker.model.Inquiry;
+import de.samply.dktk.fedsearch.share.model.InquiryState;
+import de.samply.dktk.fedsearch.share.model.InquiryStateRepository;
 import de.samply.dktk.fedsearch.share.util.Either;
+import java.util.Optional;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,12 +24,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class FetchInquiryDelegateTest {
 
-  private static final String ID = "175444";
+  private static final long ID = 175444;
+  private static final String INQUIRY_ID = "inquiry-id-183704";
   private static final String STRUCTURED_QUERY = "structured-query-175526";
   private static final String ERROR_MSG = "error-msg-135809";
 
   @Mock
   private BrokerClient client;
+
+  @Mock
+  private InquiryStateRepository inquiryStateRepository;
 
   @InjectMocks
   private FetchInquiryDelegate delegate;
@@ -34,8 +41,11 @@ class FetchInquiryDelegateTest {
   @Test
   void execute() throws Exception {
     DelegateExecution execution = mock(DelegateExecution.class);
-    when(execution.getVariable(Variables.INQUIRY_ID)).thenReturn(ID);
-    when(client.fetchInquiry(ID)).thenReturn(Either.right(Inquiry.of(ID, STRUCTURED_QUERY)));
+    when(execution.getVariable(Variables.INQUIRY_STATE_ID)).thenReturn(ID);
+    when(inquiryStateRepository.findById(ID))
+        .thenReturn(Optional.of(InquiryState.inProgress(INQUIRY_ID)));
+    when(client.fetchInquiry(INQUIRY_ID))
+        .thenReturn(Either.right(Inquiry.of(INQUIRY_ID, STRUCTURED_QUERY)));
 
     delegate.execute(execution);
 
@@ -45,8 +55,10 @@ class FetchInquiryDelegateTest {
   @Test
   void execute_WithFetchInquiryError() {
     DelegateExecution execution = mock(DelegateExecution.class);
-    when(execution.getVariable(Variables.INQUIRY_ID)).thenReturn(ID);
-    when(client.fetchInquiry(ID)).thenReturn(Either.left(ERROR_MSG));
+    when(execution.getVariable(Variables.INQUIRY_STATE_ID)).thenReturn(ID);
+    when(inquiryStateRepository.findById(ID))
+        .thenReturn(Optional.of(InquiryState.inProgress(INQUIRY_ID)));
+    when(client.fetchInquiry(INQUIRY_ID)).thenReturn(Either.left(ERROR_MSG));
 
     var error = assertThrows(Exception.class, () -> delegate.execute(execution));
 
@@ -57,12 +69,14 @@ class FetchInquiryDelegateTest {
   @Test
   void execute_InquiryWithoutStructuredQuery() {
     DelegateExecution execution = mock(DelegateExecution.class);
-    when(execution.getVariable(Variables.INQUIRY_ID)).thenReturn(ID);
-    when(client.fetchInquiry(ID)).thenReturn(Either.right(Inquiry.of(ID)));
+    when(execution.getVariable(Variables.INQUIRY_STATE_ID)).thenReturn(ID);
+    when(inquiryStateRepository.findById(ID))
+        .thenReturn(Optional.of(InquiryState.inProgress(INQUIRY_ID)));
+    when(client.fetchInquiry(INQUIRY_ID)).thenReturn(Either.right(Inquiry.of(INQUIRY_ID)));
 
     var error = assertThrows(Exception.class, () -> delegate.execute(execution));
 
-    assertEquals("missing structured query in inquiry with id `%s`".formatted(ID),
+    assertEquals("missing structured query in inquiry with id `%s`".formatted(INQUIRY_ID),
         error.getMessage());
     verify(execution, never()).setVariable(Variables.STRUCTURED_QUERY, STRUCTURED_QUERY);
   }

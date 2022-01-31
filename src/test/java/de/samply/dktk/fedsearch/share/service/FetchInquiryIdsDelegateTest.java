@@ -19,25 +19,25 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class FetchNewInquiryIdsDelegateTest {
+class FetchInquiryIdsDelegateTest {
 
-  private static final List<String> NEW_INQUIRY_IDS = List.of("1");
+  private static final List<String> INQUIRY_IDS = List.of("1");
   private static final String ERROR_MSG = "msg-163104";
 
   @Mock
   private BrokerClient client;
 
   @InjectMocks
-  private FetchNewInquiryIdsDelegate delegate;
+  private FetchInquiryIdsDelegate delegate;
 
   @Test
   void execute() throws Exception {
     DelegateExecution execution = mock(DelegateExecution.class);
-    when(client.fetchNewInquiryIds()).thenReturn(Either.right(NEW_INQUIRY_IDS));
+    when(client.fetchNewInquiryIds()).thenReturn(Either.right(INQUIRY_IDS));
 
     delegate.execute(execution);
 
-    verify(execution).setVariable(Variables.NEW_INQUIRY_IDS, NEW_INQUIRY_IDS);
+    verify(execution).setVariable(Variables.INQUIRY_IDS, INQUIRY_IDS);
   }
 
   @Test
@@ -48,6 +48,6 @@ class FetchNewInquiryIdsDelegateTest {
     var error = assertThrows(Exception.class, () -> delegate.execute(execution));
 
     assertEquals(ERROR_MSG, error.getMessage());
-    verify(execution, never()).setVariable(Variables.NEW_INQUIRY_IDS, NEW_INQUIRY_IDS);
+    verify(execution, never()).setVariable(Variables.INQUIRY_IDS, INQUIRY_IDS);
   }
 }

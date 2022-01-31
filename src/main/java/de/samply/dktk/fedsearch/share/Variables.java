@@ -12,8 +12,9 @@ import org.camunda.bpm.engine.delegate.VariableScope;
 @SuppressWarnings("ClassCanBeRecord")
 public final class Variables {
 
-  public static final String NEW_INQUIRY_IDS = "newInquiryIds";
-  public static final String INQUIRY_ID = "inquiryId";
+  public static final String INQUIRY_IDS = "inquiryIds";
+  public static final String NEW_INQUIRY_STATE_IDS = "newInquiryStateIds";
+  public static final String INQUIRY_STATE_ID = "inquiryStateId";
   public static final String STRUCTURED_QUERY = "structuredQuery";
   public static final String MEASURE_URI = "measureUri";
   public static final String COUNT = "count";
@@ -32,19 +33,34 @@ public final class Variables {
     return getVariable(String.class, STRUCTURED_QUERY);
   }
 
-  public void setStructuredQuery(String structuredQuery) {
-    scope.setVariable(STRUCTURED_QUERY, structuredQuery);
-  }
-
-  public void setNewInquiryIds(List<String> ids) {
-    scope.setVariable(NEW_INQUIRY_IDS, ids);
-  }
-
   private <T> Either<String, T> getVariable(Class<T> type, String name) {
     var variable = type.cast(scope.getVariable(name));
     return variable == null
         ? Either.left("missing process var `%s`".formatted(name))
         : Either.right(variable);
+  }
+
+  public void setStructuredQuery(String structuredQuery) {
+    scope.setVariable(STRUCTURED_QUERY, structuredQuery);
+  }
+
+  public Either<String, List<String>> getInquiryIds() {
+    return getListVariable(String.class, INQUIRY_IDS);
+  }
+
+  private <T> Either<String, List<T>> getListVariable(Class<T> type, String name) {
+    @SuppressWarnings("unchecked") var variable = (List<T>) scope.getVariable(name);
+    return variable == null
+        ? Either.left("missing process var `%s`".formatted(name))
+        : Either.right(variable);
+  }
+
+  public void setInquiryIds(List<String> ids) {
+    scope.setVariable(INQUIRY_IDS, ids);
+  }
+
+  public void setNewInquiryStateIds(List<Long> ids) {
+    scope.setVariable(NEW_INQUIRY_STATE_IDS, ids);
   }
 
   public Either<String, String> getMeasureUri() {
@@ -63,7 +79,7 @@ public final class Variables {
     scope.setVariable(COUNT, count);
   }
 
-  public Either<String, String> getInquiryId() {
-    return getVariable(String.class, INQUIRY_ID);
+  public Either<String, Long> getInquiryStateId() {
+    return getVariable(Long.class, INQUIRY_STATE_ID);
   }
 }

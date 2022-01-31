@@ -48,7 +48,7 @@ class DktkFedSearchApplicationIT {
   private static final Network network = Network.newNetwork();
 
   @Container
-  private static final PostgreSQLContainer<?> db = new PostgreSQLContainer<>("postgres:9.6")
+  private static final PostgreSQLContainer<?> brokerDb = new PostgreSQLContainer<>("postgres:9.6")
       .withDatabaseName("searchbroker")
       .withUsername("searchbroker")
       .withPassword("searchbroker")
@@ -62,7 +62,7 @@ class DktkFedSearchApplicationIT {
   private static final GenericContainer<?> broker = new GenericContainer<>(
       "samply/searchbroker:feature-structureQuery")
       .withImagePullPolicy(PullPolicy.alwaysPull())
-      .dependsOn(db)
+      .dependsOn(brokerDb)
       .withEnv("POSTGRES_HOST", "postgres")
       .withEnv("POSTGRES_DB", "searchbroker")
       .withEnv("POSTGRES_USER", "searchbroker")
@@ -81,6 +81,16 @@ class DktkFedSearchApplicationIT {
       .withExposedPorts(8080)
       .waitingFor(Wait.forHttp("/health").forStatusCode(200))
       .withStartupAttempts(3);
+
+  @Container
+  private static final PostgreSQLContainer<?> shareDb = new PostgreSQLContainer<>("postgres:14")
+      .withDatabaseName("dktk-fed-search-share")
+      .withUsername("dktk-fed-search-share")
+      .withPassword("dktk-fed-search-share")
+      .waitingFor(Wait.forListeningPort())
+      .withExposedPorts(5432)
+      .withStartupAttempts(3);
+
   private final ObjectReader replyReader = new ObjectMapper().readerFor(Reply.class);
 
   private static String brokerBaseUrl() {
@@ -89,6 +99,11 @@ class DktkFedSearchApplicationIT {
 
   private static String storeBaseUrl() {
     return "http://localhost:%d/fhir".formatted(store.getFirstMappedPort());
+  }
+
+  private static String springDataSourceUrl() {
+    return "jdbc:postgresql://localhost:%d/dktk-fed-search-share".formatted(
+        shareDb.getFirstMappedPort());
   }
 
   private FhirParser fhirParser;
@@ -100,6 +115,7 @@ class DktkFedSearchApplicationIT {
     registry.add("app.broker.authToken", () -> AUTH_TOKEN);
     registry.add("app.broker.mail", () -> MAIL);
     registry.add("app.store.baseUrl", DktkFedSearchApplicationIT::storeBaseUrl);
+    registry.add("spring.datasource.url", DktkFedSearchApplicationIT::springDataSourceUrl);
   }
 
   private static void createOneInquiry() throws SQLException {
@@ -138,10 +154,10 @@ class DktkFedSearchApplicationIT {
 
   private static DataSource getDataSource() {
     var dataSourceBuilder = DataSourceBuilder.create();
-    dataSourceBuilder.driverClassName(db.getDriverClassName());
-    dataSourceBuilder.url(db.getJdbcUrl());
-    dataSourceBuilder.username(db.getUsername());
-    dataSourceBuilder.password(db.getPassword());
+    dataSourceBuilder.driverClassName(brokerDb.getDriverClassName());
+    dataSourceBuilder.url(brokerDb.getJdbcUrl());
+    dataSourceBuilder.username(brokerDb.getUsername());
+    dataSourceBuilder.password(brokerDb.getPassword());
     return dataSourceBuilder.build();
   }
 

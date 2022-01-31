@@ -12,16 +12,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * Fetches the list of new inquiry Ids from the broker.
+ * Fetches the list of inquiry Ids from the broker.
  */
 @Component
-public class FetchNewInquiryIdsDelegate implements JavaDelegate {
+public class FetchInquiryIdsDelegate implements JavaDelegate {
 
-  private static final Logger logger = LoggerFactory.getLogger(FetchNewInquiryIdsDelegate.class);
+  private static final Logger logger = LoggerFactory.getLogger(FetchInquiryIdsDelegate.class);
 
   private final BrokerClient client;
 
-  public FetchNewInquiryIdsDelegate(BrokerClient client) {
+  public FetchInquiryIdsDelegate(BrokerClient client) {
     this.client = requireNonNull(client);
   }
 
@@ -32,6 +32,6 @@ public class FetchNewInquiryIdsDelegate implements JavaDelegate {
     List<String> inquiryIds = client.fetchNewInquiryIds().orElseThrow(Exception::new);
     logger.info("Got {} new inquiry id(s) from broker in {} ms.", inquiryIds.size(),
         ((int) (((double) (System.nanoTime() - start)) / 1000000)));
-    Variables.of(execution).setNewInquiryIds(inquiryIds);
+    Variables.of(execution).setInquiryIds(inquiryIds);
   }
 }
