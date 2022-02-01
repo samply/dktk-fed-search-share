@@ -8298,5 +8298,16 @@
             "system": "http://fhir.de/CodeSystem/dimdi/icd-10-gm"
         },
         "termCodeSearchParameter": "code"
+    },
+    {
+        "fhirResourceType": "Observation",
+        "key": {
+            "code": "75186-7",
+            "display": "Vitalstatus",
+            "system": "http://loinc.org"
+        },
+        "termCodeSearchParameter": "code",
+        "valueFhirPath": "value",
+        "valueSearchParameter": "value-concept"
     }
 ]

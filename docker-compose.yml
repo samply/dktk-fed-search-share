@@ -66,7 +66,7 @@ services:
   gui-backend:
     image: "ghcr.io/num-codex/codex-feasibility-backend:1.0.0-arm"
     ports:
-    - "${GUI_BACKEND_PORT:-127.0.0.1:8091}:8090"
+    - "${GUI_BACKEND_PORT:-8091}:8090"
     depends_on:
     - gui-backend-db
     environment:
@@ -91,7 +91,7 @@ services:
   gui:
     image: "ghcr.io/samply/dktk-feasibility-gui:latest"
     ports:
-    - "${GUI_PORT:-127.0.0.1:8092}:8080"
+    - "${GUI_PORT:-8092}:8080"
     depends_on:
     - gui-backend
     - broker
