@@ -59,7 +59,8 @@ public class DktkFedSearchApplication {
   public MappingContext mappingContext(List<Mapping> mappings, TermCodeNode conceptTree) {
     var mappingMap = mappings.stream().collect(groupingBy(Mapping::getKey, first()));
     return MappingContext.of(mappingMap, conceptTree,
-        Map.of("http://fhir.de/CodeSystem/dimdi/icd-10-gm", "icd_10_gm"));
+        Map.of("http://fhir.de/CodeSystem/dimdi/icd-10-gm", "icd_10_gm",
+            "http://loinc.org", "loinc"));
   }
 
   /**
