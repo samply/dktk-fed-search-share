@@ -36,17 +36,30 @@ services:
     volumes:
     - "blaze-data:/app/data"
 
+  dktk-fed-search-share-db:
+    image: "postgres:14"
+    environment:
+      POSTGRES_USER: "dktk-fed-search-share"
+      POSTGRES_PASSWORD: "dktk-fed-search-share"
+      POSTGRES_DB: "dktk-fed-search-share"
+    ports:
+    - "${DKTK_FED_SEARCH_SHARE_DB_PORT:-5433}:5432"
+    volumes:
+    - "dktk-fed-search-share-db-data:/var/lib/postgresql/data"
+
   dktk-fed-search-share:
-    #image: "ghcr.io/samply/dktk-fed-search-share:pr-1"
-    build: .
+    image: "ghcr.io/samply/dktk-fed-search-share:pr-1"
+    #build: .
     environment:
       APP_BROKER_BASEURL: "http://broker:8080/broker/rest/searchbroker"
       APP_BROKER_MAIL: "foo@bar.de"
       APP_STORE_BASEURL: "http://blaze:8080/fhir"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://dktk-fed-search-share-db:5432/dktk-fed-search-share"
       JAVA_TOOL_OPTIONS: "-Xmx1g"
     ports:
     - "8080:8080"
     depends_on:
+    - dktk-fed-search-share-db
     - broker
     - blaze
 
@@ -119,4 +132,5 @@ services:
 volumes:
   blaze-data:
   broker-db-data:
+  dktk-fed-search-share-db-data:
   keycloak-db-data:

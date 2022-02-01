@@ -27,7 +27,7 @@ public interface ClasspathIo {
         logger.error("file `{}` not found in classpath", name);
         return Either.left("file `%s` not found in classpath".formatted(name));
       } else {
-        logger.info("read file `{}` from classpath", name);
+        logger.debug("read file `{}` from classpath", name);
         return Either.right(new String(in.readAllBytes(), UTF_8));
       }
     } catch (IOException e) {

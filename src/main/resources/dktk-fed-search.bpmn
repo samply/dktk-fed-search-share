@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0rkuicf" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:process id="DktkFedSearch" name="DKTK Federated Search" isExecutable="true">
-    <bpmn:startEvent id="StartEvent_1" name="Every 10 seconds" camunda:formRef="" camunda:formRefBinding="latest">
+    <bpmn:startEvent id="StartEvent_1" name="Every 5 seconds" camunda:formRef="" camunda:formRefBinding="latest">
       <bpmn:outgoing>Flow_1ktrm0i</bpmn:outgoing>
       <bpmn:timerEventDefinition>
-        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">R/PT10S</bpmn:timeCycle>
+        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">R/PT5S</bpmn:timeCycle>
       </bpmn:timerEventDefinition>
     </bpmn:startEvent>
     <bpmn:subProcess id="Activity_0vxwnio">
@@ -50,7 +50,7 @@
     <bpmn:sequenceFlow id="Flow_1443n0c" sourceRef="Activity_0vxwnio" targetRef="Event_03kh6fb" />
     <bpmn:sequenceFlow id="Flow_120qib7" sourceRef="Activity_01gg0lc" targetRef="Activity_12v01hs" />
     <bpmn:sequenceFlow id="Flow_0vjl1i6" sourceRef="Activity_12v01hs" targetRef="Activity_0vxwnio" />
-    <bpmn:serviceTask id="Activity_12v01hs" name="Filter New Inquiry Ids" camunda:class="de.samply.dktk.fedsearch.share.service.FilterNewInquiryIdsDelegate">
+    <bpmn:serviceTask id="Activity_12v01hs" name="Filter New Inquiry Ids" camunda:asyncAfter="true" camunda:class="de.samply.dktk.fedsearch.share.service.FilterNewInquiryIdsDelegate">
       <bpmn:incoming>Flow_120qib7</bpmn:incoming>
       <bpmn:outgoing>Flow_0vjl1i6</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -76,7 +76,7 @@
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="172" y="142" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="146" y="118" width="88" height="14" />
+          <dc:Bounds x="149" y="118" width="82" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0vxwnio_di" bpmnElement="Activity_0vxwnio" isExpanded="true">
