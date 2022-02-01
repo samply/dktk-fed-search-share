@@ -60,7 +60,8 @@ public class DktkFedSearchApplication {
     var mappingMap = mappings.stream().collect(groupingBy(Mapping::getKey, first()));
     return MappingContext.of(mappingMap, conceptTree,
         Map.of("http://fhir.de/CodeSystem/dimdi/icd-10-gm", "icd_10_gm",
-            "http://loinc.org", "loinc"));
+            "http://loinc.org", "loinc",
+            "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/VitalstatusCS", "vital_status"));
   }
 
   /**
