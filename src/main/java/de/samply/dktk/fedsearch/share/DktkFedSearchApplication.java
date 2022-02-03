@@ -57,11 +57,17 @@ public class DktkFedSearchApplication {
    */
   @Bean
   public MappingContext mappingContext(List<Mapping> mappings, TermCodeNode conceptTree) {
-    var mappingMap = mappings.stream().collect(groupingBy(Mapping::getKey, first()));
+    var mappingMap = mappings.stream().collect(groupingBy(Mapping::key, first()));
     return MappingContext.of(mappingMap, conceptTree,
         Map.of("http://fhir.de/CodeSystem/dimdi/icd-10-gm", "icd_10_gm",
             "http://loinc.org", "loinc",
-            "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/VitalstatusCS", "vital_status"));
+            "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/VitalstatusCS", "vital_status",
+            "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/GradingCS", "grading",
+            "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS", "uicc",
+            "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS", "tnm_t",
+            "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS", "tnm_n",
+            "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMMCS", "tnm_m",
+            "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMySymbolCS", "tnm_y"));
   }
 
   /**

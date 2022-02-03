@@ -1,71 +1,19 @@
 {
+  "id": "9f608712-996e-767e-cfa3-b2c315a01004",
+  "display": "Person",
+  "leaf": false,
+  "selectable": false,
+  "termCodes": [
+    {
+      "code": "person",
+      "display": "Person",
+      "system": "http://dktk.dkfz.de/fhir/search"
+    }
+  ],
   "children": [
     {
-      "children": [
-        {
-          "attributeDefinitions": [
-            {
-              "attributeCode": {
-                "code": "gender",
-                "display": "Geschlecht",
-                "system": "num.abide"
-              },
-              "optional": false,
-              "precision": 1,
-              "selectableConcepts": [
-                {
-                  "code": "female",
-                  "display": "Female",
-                  "system": "http://hl7.org/fhir/administrative-gender"
-                },
-                {
-                  "code": "male",
-                  "display": "Male",
-                  "system": "http://hl7.org/fhir/administrative-gender"
-                },
-                {
-                  "code": "other",
-                  "display": "Other",
-                  "system": "http://hl7.org/fhir/administrative-gender"
-                },
-                {
-                  "code": "unknown",
-                  "display": "Unknown",
-                  "system": "http://hl7.org/fhir/administrative-gender"
-                }
-              ],
-              "type": "concept"
-            }
-          ],
-          "display": "Geschlecht",
-          "id": "10e967a5-10c0-9a2c-eaf7-a95328ebfc4b",
-          "leaf": true,
-          "selectable": true,
-          "termCodes": [
-            {
-              "code": "gender",
-              "display": "Geschlecht",
-              "system": "num.abide"
-            }
-          ],
-          "timeRestrictionAllowed": false
-        }
-      ],
-      "display": "PatientIn",
-      "id": "be631d51-a07b-5693-739f-f4379ec5d0cc",
-      "leaf": false,
-      "selectable": false,
-      "termCodes": [
-        {
-          "code": "PatientIn",
-          "display": "PatientIn",
-          "system": "num.abide"
-        }
-      ]
-    },
-    {
-      "display": "Vitalstatus",
       "id": "f564f7fd-222c-1827-5115-5b4b11970645",
+      "display": "Vitalstatus",
       "leaf": true,
       "selectable": true,
       "termCodes": [
@@ -75,8 +23,9 @@
           "system": "http://loinc.org"
         }
       ],
-      "timeRestrictionAllowed": true,
+      "timeRestrictionAllowed": false,
       "valueDefinition": {
+        "type": "concept",
         "precision": 1,
         "selectableConcepts": [
           {
@@ -94,20 +43,8 @@
             "display": "unbekannt",
             "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/VitalstatusCS"
           }
-        ],
-        "type": "concept"
+        ]
       }
-    }
-  ],
-  "display": "Person",
-  "id": "9f608712-996e-767e-cfa3-b2c315a01004",
-  "leaf": false,
-  "selectable": false,
-  "termCodes": [
-    {
-      "code": "Person",
-      "display": "Person",
-      "system": "num.abide"
     }
   ]
 }

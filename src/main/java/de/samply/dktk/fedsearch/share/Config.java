@@ -6,6 +6,7 @@ import static java.util.Objects.requireNonNull;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.numcodex.sq2cql.model.Mapping;
 import de.numcodex.sq2cql.model.TermCodeNode;
+import de.numcodex.sq2cql.model.common.TermCode;
 import de.samply.dktk.fedsearch.share.util.Either;
 import java.util.List;
 import org.hl7.fhir.r4.model.Library;
@@ -69,7 +70,7 @@ public class Config {
               "I/O error while reading the file `term-code-tree.json` from classpath: {} "
                   + "Proceeding with an empty term code tree.",
               msg);
-          return TermCodeNode.of();
+          return TermCodeNode.of(TermCode.of("ROOT", "ROOT", "ROOT"));
         });
   }
 

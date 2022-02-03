@@ -27,6 +27,6 @@ class ConfigTest {
   void readConceptTree() {
     var termCodeNode = config.conceptTree();
 
-    assertTrue(termCodeNode.getTermCode().getCode().isEmpty());
+    assertTrue(termCodeNode.termCode().code().isEmpty());
   }
 }

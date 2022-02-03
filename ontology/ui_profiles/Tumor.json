@@ -1,0 +1,472 @@
+{
+  "id": "ad894a8d-187f-4edb-b863-c88db0bf6afa",
+  "display": "Tumor",
+  "leaf": false,
+  "selectable": false,
+  "termCodes": [
+    {
+      "code": "tumor",
+      "display": "Tumor",
+      "system": "http://dktk.dkfz.de/fhir/search"
+    }
+  ],
+  "children": [
+    {
+      "id": "05d0f3c7-95bf-422b-a851-104d8e55c6c8",
+      "display": "Grading",
+      "leaf": true,
+      "selectable": true,
+      "termCodes": [
+        {
+          "code": "59542-1",
+          "display": "Grading",
+          "system": "http://loinc.org"
+        }
+      ],
+      "timeRestrictionAllowed": false,
+      "valueDefinition": {
+        "type": "concept",
+        "precision": 1,
+        "selectableConcepts": [
+          {
+            "code": "0",
+            "display": "malignes Melanom der Konjunktiva",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/GradingCS"
+          },
+          {
+            "code": "1",
+            "display": "gut differenziert",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/GradingCS"
+          },
+          {
+            "code": "2",
+            "display": "mäßig differenziert",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/GradingCS"
+          },
+          {
+            "code": "3",
+            "display": "schlecht differenziert",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/GradingCS"
+          },
+          {
+            "code": "4",
+            "display": "undifferenziert",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/GradingCS"
+          },
+          {
+            "code": "X",
+            "display": "nicht bestimmbar",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/GradingCS"
+          },
+          {
+            "code": "L",
+            "display": "low grade (G1 oder G2)",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/GradingCS"
+          },
+          {
+            "code": "M",
+            "display": "intermediate (G2 oder G3)",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/GradingCS"
+          },
+          {
+            "code": "H",
+            "display": "high grade (G3 oder G4)",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/GradingCS"
+          },
+          {
+            "code": "B",
+            "display": "Borderline",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/GradingCS"
+          },
+          {
+            "code": "U",
+            "display": "unbekannt",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/GradingCS"
+          },
+          {
+            "code": "T",
+            "display": "trifft nicht zu",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/GradingCS"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ea73d624-f467-4a25-a52f-0112529db676",
+      "display": "TNM (UICC Stadium)",
+      "leaf": true,
+      "selectable": true,
+      "termCodes": [
+        {
+          "code": "21908-9",
+          "display": "TNM klinisch",
+          "system": "http://loinc.org"
+        },
+        {
+          "code": "21902-2",
+          "display": "TNM pathologisch",
+          "system": "http://loinc.org"
+        }
+      ],
+      "timeRestrictionAllowed": false,
+      "valueDefinition": {
+        "type": "concept",
+        "precision": 1,
+        "selectableConcepts": [
+          {
+            "code": "0",
+            "display": "0",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "0a",
+            "display": "0a",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "0is",
+            "display": "0is",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "I",
+            "display": "I",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IA",
+            "display": "IA",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IA1",
+            "display": "IA1",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IA2",
+            "display": "IA2",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IB",
+            "display": "IB",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IB1",
+            "display": "IB1",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IB2",
+            "display": "IB2",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IC",
+            "display": "IC",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "II",
+            "display": "II",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IIA",
+            "display": "IIA",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IIA1",
+            "display": "IIA1",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IIA2",
+            "display": "IIA2",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IIB",
+            "display": "IIB",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IIC",
+            "display": "IIC",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "III",
+            "display": "III",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IIIA",
+            "display": "IIIA",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IIIB",
+            "display": "IIIB",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IIIC",
+            "display": "IIIC",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IIIC1",
+            "display": "IIIC1",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IIIC2",
+            "display": "IIIC2",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IV",
+            "display": "IV",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IVA",
+            "display": "IVA",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IVB",
+            "display": "IVB",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IVC",
+            "display": "IVC",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          },
+          {
+            "code": "IS",
+            "display": "IS",
+            "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/UiccstadiumCS"
+          }
+        ]
+      },
+      "attributeDefinitions": [
+        {
+          "type": "concept",
+          "attributeCode": {
+            "code": "21899-0",
+            "display": "TNM-T",
+            "system": "http://loinc.org"
+          },
+          "selectableConcepts": [
+            {
+              "code": "0",
+              "display": "0",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "1",
+              "display": "1",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "1a",
+              "display": "1a",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "1a1",
+              "display": "1a1",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "1a2",
+              "display": "1a2",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "1b",
+              "display": "1b",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "1b1",
+              "display": "1b1",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "1b2",
+              "display": "1b2",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "1c",
+              "display": "1c",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "1c1",
+              "display": "1c1",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "1c2",
+              "display": "1c2",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "1c3",
+              "display": "1c3",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "1d",
+              "display": "1d",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "1mi",
+              "display": "1mi",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "2",
+              "display": "2",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "2a",
+              "display": "2a",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "2a1",
+              "display": "2a1",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "2a2",
+              "display": "2a2",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "2b",
+              "display": "2b",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "2c",
+              "display": "2c",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "2d",
+              "display": "2d",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "3",
+              "display": "3",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "3a",
+              "display": "3a",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "3b",
+              "display": "3b",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "3c",
+              "display": "3c",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "3d",
+              "display": "3d",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "4",
+              "display": "4",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "4a",
+              "display": "4a",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "4b",
+              "display": "4b",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "4c",
+              "display": "4c",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "4d",
+              "display": "4d",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "4e",
+              "display": "4e",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "a",
+              "display": "a",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "is",
+              "display": "is",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "is(DCIS)",
+              "display": "is(DCIS)",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "is(LCIS)",
+              "display": "is(LCIS)",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "is(Paget)",
+              "display": "is(Paget)",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "is(pd)",
+              "display": "is(pd)",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "is(pu)",
+              "display": "is(pu)",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            },
+            {
+              "code": "X",
+              "display": "X",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
