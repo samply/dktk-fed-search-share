@@ -8323,9 +8323,118 @@
         "attributeKey": {
           "system": "http://loinc.org",
           "code": "21899-0",
-          "display": "Primary tumor.pathology Cancer"
+          "display": "Primary tumor"
         },
         "attributeFhirPath": "component.where(code.coding.exists(system = 'http://loinc.org' and code = '21899-0')).value.first()"
+      },
+      {
+        "attributeType": "coding",
+        "attributeKey": {
+          "system": "http://loinc.org",
+          "code": "21900-6",
+          "display": "Regional lymph nodes"
+        },
+        "attributeFhirPath": "component.where(code.coding.exists(system = 'http://loinc.org' and code = '21900-6')).value.first()"
+      },
+      {
+        "attributeType": "coding",
+        "attributeKey": {
+          "system": "http://loinc.org",
+          "code": "21901-4",
+          "display": "Distant metastases"
+        },
+        "attributeFhirPath": "component.where(code.coding.exists(system = 'http://loinc.org' and code = '21901-4')).value.first()"
+      },
+      {
+        "attributeType": "coding",
+        "attributeKey": {
+          "system": "http://loinc.org",
+          "code": "59479-6",
+          "display": "Collaborative staging post treatment extension"
+        },
+        "attributeFhirPath": "component.where(code.coding.exists(system = 'http://loinc.org' and code = '59479-6')).value.first()"
+      },
+      {
+        "attributeType": "coding",
+        "attributeKey": {
+          "system": "http://loinc.org",
+          "code": "21983-2",
+          "display": "Recurrence type first episode"
+        },
+        "attributeFhirPath": "component.where(code.coding.exists(system = 'http://loinc.org' and code = '21983-2')).value.first()"
+      },
+      {
+        "attributeType": "coding",
+        "attributeKey": {
+          "system": "http://loinc.org",
+          "code": "42030-7",
+          "display": "Multiple tumors reported as single primary"
+        },
+        "attributeFhirPath": "component.where(code.coding.exists(system = 'http://loinc.org' and code = '42030-7')).value.first()"
+      }
+    ]
+  },
+  {
+    "fhirResourceType": "Observation",
+    "key": {
+      "system": "http://loinc.org",
+      "code": "21902-2",
+      "display": "Stage group.pathology Cancer"
+    },
+    "attributeMappings": [
+      {
+        "attributeType": "coding",
+        "attributeKey": {
+          "system": "http://loinc.org",
+          "code": "21899-0",
+          "display": "Primary tumor"
+        },
+        "attributeFhirPath": "component.where(code.coding.exists(system = 'http://loinc.org' and code = '21899-0')).value.first()"
+      },
+      {
+        "attributeType": "coding",
+        "attributeKey": {
+          "system": "http://loinc.org",
+          "code": "21900-6",
+          "display": "Regional lymph nodes"
+        },
+        "attributeFhirPath": "component.where(code.coding.exists(system = 'http://loinc.org' and code = '21900-6')).value.first()"
+      },
+      {
+        "attributeType": "coding",
+        "attributeKey": {
+          "system": "http://loinc.org",
+          "code": "21901-4",
+          "display": "Distant metastases"
+        },
+        "attributeFhirPath": "component.where(code.coding.exists(system = 'http://loinc.org' and code = '21901-4')).value.first()"
+      },
+      {
+        "attributeType": "coding",
+        "attributeKey": {
+          "system": "http://loinc.org",
+          "code": "59479-6",
+          "display": "Collaborative staging post treatment extension"
+        },
+        "attributeFhirPath": "component.where(code.coding.exists(system = 'http://loinc.org' and code = '59479-6')).value.first()"
+      },
+      {
+        "attributeType": "coding",
+        "attributeKey": {
+          "system": "http://loinc.org",
+          "code": "21983-2",
+          "display": "Recurrence type first episode"
+        },
+        "attributeFhirPath": "component.where(code.coding.exists(system = 'http://loinc.org' and code = '21983-2')).value.first()"
+      },
+      {
+        "attributeType": "coding",
+        "attributeKey": {
+          "system": "http://loinc.org",
+          "code": "42030-7",
+          "display": "Multiple tumors reported as single primary"
+        },
+        "attributeFhirPath": "component.where(code.coding.exists(system = 'http://loinc.org' and code = '42030-7')).value.first()"
       }
     ]
   }
