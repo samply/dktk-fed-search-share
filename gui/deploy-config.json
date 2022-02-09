@@ -9,7 +9,7 @@
     "baseUrl": "http://localhost:8092/api/v1"
   },
   "uiSearchbrokerApi": {
-    "baseUrl": "http://localhost:8092/searchbroker/structured-query/"
+    "baseUrl": "http://localhost:8092/broker/rest/searchbroker/structured-query/"
   },
   "auth": {
     "baseUrl": "http://localhost:8092",

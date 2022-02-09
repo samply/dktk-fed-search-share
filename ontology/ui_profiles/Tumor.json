@@ -263,6 +263,7 @@
             "display": "TNM-T",
             "system": "http://loinc.org"
           },
+          "optional": true,
           "selectableConcepts": [
             {
               "code": "0",
@@ -463,6 +464,178 @@
               "code": "X",
               "display": "X",
               "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMTCS"
+            }
+          ]
+        },
+        {
+          "type": "concept",
+          "attributeCode": {
+            "code": "21900-6",
+            "display": "TNM-N",
+            "system": "http://loinc.org"
+          },
+          "optional": true,
+          "selectableConcepts": [
+            {
+              "code": "0",
+              "display": "0",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS"
+            },
+            {
+              "code": "0(i+)",
+              "display": "0(i+)",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS"
+            },
+            {
+              "code": "0(i-)",
+              "display": "0(i-)",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS"
+            },
+            {
+              "code": "0(mol+)",
+              "display": "0(mol+)",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS"
+            },
+            {
+              "code": "0(mol-)",
+              "display": "0(mol-)",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS"
+            },
+            {
+              "code": "1",
+              "display": "1",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS"
+            },
+            {
+              "code": "1a",
+              "display": "1a",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS"
+            },
+            {
+              "code": "1b",
+              "display": "1b",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS"
+            },
+            {
+              "code": "1c",
+              "display": "1c",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS"
+            },
+            {
+              "code": "1mi",
+              "display": "1mi",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS"
+            },
+            {
+              "code": "2",
+              "display": "2",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS"
+            },
+            {
+              "code": "2a",
+              "display": "2a",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS"
+            },
+            {
+              "code": "2b",
+              "display": "2b",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS"
+            },
+            {
+              "code": "2c",
+              "display": "2c",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS"
+            },
+            {
+              "code": "3",
+              "display": "3",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS"
+            },
+            {
+              "code": "3a",
+              "display": "3a",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS"
+            },
+            {
+              "code": "3b",
+              "display": "3b",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS"
+            },
+            {
+              "code": "3c",
+              "display": "3c",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS"
+            },
+            {
+              "code": "X",
+              "display": "X",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMNCS"
+            }
+          ]
+        },
+        {
+          "type": "concept",
+          "attributeCode": {
+            "code": "21901-4",
+            "display": "TNM-M",
+            "system": "http://loinc.org"
+          },
+          "optional": true,
+          "selectableConcepts": [
+            {
+              "code": "0",
+              "display": "0",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMMCS"
+            },
+            {
+              "code": "1",
+              "display": "1",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMMCS"
+            },
+            {
+              "code": "1a",
+              "display": "1a",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMMCS"
+            },
+            {
+              "code": "1b",
+              "display": "1b",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMMCS"
+            },
+            {
+              "code": "1c",
+              "display": "1c",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMMCS"
+            },
+            {
+              "code": "1d",
+              "display": "1d",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMMCS"
+            },
+            {
+              "code": "1e",
+              "display": "1e",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMMCS"
+            },
+            {
+              "code": "0(i-)",
+              "display": "0(i-)",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMMCS"
+            },
+            {
+              "code": "0(i+)",
+              "display": "0(i+)",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMMCS"
+            },
+            {
+              "code": "0(mol-)",
+              "display": "0(mol-)",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMMCS"
+            },
+            {
+              "code": "0(mol+)",
+              "display": "0(mol+)",
+              "system": "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/TNMMCS"
             }
           ]
         }

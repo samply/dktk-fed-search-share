@@ -20,6 +20,8 @@ services:
       POSTGRES_PASS: "searchbroker"
       STRUCTURED_QUERY_USERNAME: "test123"
       STRUCTURED_QUERY_PASSWORD: "test123"
+    ports:
+    - "8094:8080"
     depends_on:
     - broker-db
 
