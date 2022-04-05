@@ -71,12 +71,11 @@ jobs:
     - name: Build with Maven
       run: mvn -B package -DskipTests
 
-    - name: Login to GitHub Docker Registry
+    - name: Login to DockerHub
       uses: docker/login-action@v1
       with:
-        registry: ghcr.io
-        username: ${{ github.repository_owner }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
@@ -89,7 +88,7 @@ jobs:
       uses: docker/metadata-action@v3
       with:
         images: |
-          ghcr.io/samply/dktk-fed-search-share
+          samply/dktk-fed-search-share
         tags: |
           type=schedule
           type=ref,event=branch
