@@ -20,21 +20,21 @@ jobs:
 
     steps:
     - name: Setup Java
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
         java-version: '17'
 
-    - uses: s4u/maven-settings-action@v2.4.0
+    - uses: s4u/maven-settings-action@v2
       with:
         servers: |
-          [{"id": "codex", "username": "${{ github.actor }}", "password": "${{ secrets.GITHUB_TOKEN }}"}]
+          [{"id": "github-mii", "username": "${{ github.actor }}", "password": "${{ secrets.GITHUB_TOKEN }}"}]
 
     - name: Check out Git repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Cache Local Maven Repo
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/.m2/repository
         key: maven-${{ hashFiles('pom.xml') }}
@@ -49,21 +49,21 @@ jobs:
 
     steps:
     - name: Setup Java
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
         java-version: '17'
 
-    - uses: s4u/maven-settings-action@v2.4.0
+    - uses: s4u/maven-settings-action@v2
       with:
         servers: |
-          [{"id": "codex", "username": "${{ github.actor }}", "password": "${{ secrets.GITHUB_TOKEN }}"}]
+          [{"id": "github-mii", "username": "${{ github.actor }}", "password": "${{ secrets.GITHUB_TOKEN }}"}]
 
     - name: Check out Git repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Cache Local Maven Repo
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/.m2/repository
         key: maven-${{ hashFiles('pom.xml') }}

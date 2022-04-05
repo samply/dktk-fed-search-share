@@ -29,7 +29,6 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectReader;
 
 @SpringBootTest
 @Testcontainers
-@SuppressWarnings("NewClassNamingConvention")
 class DktkFedSearchApplicationTest {
 
   private static final String AUTH_TOKEN = "token-131538";
@@ -74,7 +73,7 @@ class DktkFedSearchApplicationTest {
 
   @Container
   private static final GenericContainer<?> store = new GenericContainer<>(
-      "samply/blaze:0.15")
+      "samply/blaze:0.16")
       .withImagePullPolicy(PullPolicy.alwaysPull())
       .withEnv("LOG_LEVEL", "debug")
       .withNetwork(network)
@@ -161,6 +160,7 @@ class DktkFedSearchApplicationTest {
     return dataSourceBuilder.build();
   }
 
+  @SuppressWarnings("SameParameterValue")
   private static ResultSet performQuery(String query) throws SQLException {
     var ds = getDataSource();
     var statement = ds.getConnection().createStatement();
