@@ -14,7 +14,11 @@
   "auth": {
     "baseUrl": "http://localhost:8092",
     "realm": "codex-develop",
-    "clientId": "feasibility-gui"
+    "clientId": "feasibility-gui",
+    "excludedUrls": [ "http://localhost:8097/share_broker_rest_war",
+                      "http://localhost:8092/broker",
+                      "http://e260-serv-11:8080",
+                      "http://e260-serv-11:8080/broker"]
   },
   "legal": {
     "version": "0.9.0",
@@ -33,9 +37,10 @@
     }
   },
   "options": {
-    "pollingtimeinseconds": 10,
+    "pollingtimeinseconds": 25,
     "pollingintervallinseconds": 1,
-    "lowerboundarypatientresult": 0
+    "lowerboundarypatientresult": 0,
+    "lowerboundarylocationresult": 1
   },
   "mock": {
     "terminology": false,
