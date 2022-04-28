@@ -14,7 +14,8 @@
   "auth": {
     "baseUrl": "http://localhost:8092",
     "realm": "codex-develop",
-    "clientId": "feasibility-gui"
+    "clientId": "feasibility-gui",
+    "excludedUrls": []
   },
   "legal": {
     "version": "0.9.0",
@@ -33,9 +34,10 @@
     }
   },
   "options": {
-    "pollingtimeinseconds": 10,
+    "pollingtimeinseconds": 25,
     "pollingintervallinseconds": 1,
-    "lowerboundarypatientresult": 0
+    "lowerboundarypatientresult": 0,
+    "lowerboundarylocationresult": 1
   },
   "mock": {
     "terminology": false,
