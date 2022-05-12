@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ca.uhn.fhir.context.FhirContext;
 import de.samply.dktk.fedsearch.share.broker.model.Reply;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.hl7.fhir.r4.model.Bundle;
@@ -47,6 +46,7 @@ class DktkFedSearchApplicationTest {
   private static final Network network = Network.newNetwork();
 
   @Container
+  @SuppressWarnings("resource")
   private static final PostgreSQLContainer<?> brokerDb = new PostgreSQLContainer<>("postgres:9.6")
       .withDatabaseName("searchbroker")
       .withUsername("searchbroker")
@@ -58,6 +58,7 @@ class DktkFedSearchApplicationTest {
       .withStartupAttempts(3);
 
   @Container
+  @SuppressWarnings("resource")
   private static final GenericContainer<?> broker = new GenericContainer<>(
       "samply/searchbroker:feature-structureQuery")
       .withImagePullPolicy(PullPolicy.alwaysPull())
@@ -72,8 +73,8 @@ class DktkFedSearchApplicationTest {
       .withStartupAttempts(3);
 
   @Container
-  private static final GenericContainer<?> store = new GenericContainer<>(
-      "samply/blaze:0.16")
+  @SuppressWarnings("resource")
+  private static final GenericContainer<?> store = new GenericContainer<>("samply/blaze:0.17")
       .withImagePullPolicy(PullPolicy.alwaysPull())
       .withEnv("LOG_LEVEL", "debug")
       .withNetwork(network)
@@ -82,6 +83,7 @@ class DktkFedSearchApplicationTest {
       .withStartupAttempts(3);
 
   @Container
+  @SuppressWarnings("resource")
   private static final PostgreSQLContainer<?> shareDb = new PostgreSQLContainer<>("postgres:14")
       .withDatabaseName("dktk-fed-search-share")
       .withUsername("dktk-fed-search-share")
@@ -93,15 +95,16 @@ class DktkFedSearchApplicationTest {
   private final ObjectReader replyReader = new ObjectMapper().readerFor(Reply.class);
 
   private static String brokerBaseUrl() {
-    return "http://localhost:%d/broker/rest/searchbroker".formatted(broker.getFirstMappedPort());
+    return "http://%s:%d/broker/rest/searchbroker".formatted(broker.getHost(),
+        broker.getFirstMappedPort());
   }
 
   private static String storeBaseUrl() {
-    return "http://localhost:%d/fhir".formatted(store.getFirstMappedPort());
+    return "http://%s:%d/fhir".formatted(store.getHost(), store.getFirstMappedPort());
   }
 
   private static String springDataSourceUrl() {
-    return "jdbc:postgresql://localhost:%d/dktk-fed-search-share".formatted(
+    return "jdbc:postgresql://%s:%d/dktk-fed-search-share".formatted(shareDb.getHost(),
         shareDb.getFirstMappedPort());
   }
 
@@ -118,7 +121,7 @@ class DktkFedSearchApplicationTest {
   }
 
   private static void createOneInquiry() throws SQLException {
-    var ds = getDataSource();
+    var ds = createDataSource();
     var authTokenId = performInsert(ds,
         "insert into samply.authtoken (value) values ('" + AUTH_TOKEN + "')");
     var bankId = performInsert(ds,
@@ -144,28 +147,21 @@ class DktkFedSearchApplicationTest {
   }
 
   private static int performInsert(DataSource ds, String sql) throws SQLException {
-    var statement = ds.getConnection().createStatement();
-    statement.execute(sql, RETURN_GENERATED_KEYS);
-    var keys = statement.getGeneratedKeys();
-    keys.next();
-    return keys.getInt(1);
+    try (var statement = ds.getConnection().createStatement()) {
+      statement.execute(sql, RETURN_GENERATED_KEYS);
+      var keys = statement.getGeneratedKeys();
+      keys.next();
+      return keys.getInt(1);
+    }
   }
 
-  private static DataSource getDataSource() {
+  private static DataSource createDataSource() {
     var dataSourceBuilder = DataSourceBuilder.create();
     dataSourceBuilder.driverClassName(brokerDb.getDriverClassName());
     dataSourceBuilder.url(brokerDb.getJdbcUrl());
     dataSourceBuilder.username(brokerDb.getUsername());
     dataSourceBuilder.password(brokerDb.getPassword());
     return dataSourceBuilder.build();
-  }
-
-  @SuppressWarnings("SameParameterValue")
-  private static ResultSet performQuery(String query) throws SQLException {
-    var ds = getDataSource();
-    var statement = ds.getConnection().createStatement();
-    statement.execute(query);
-    return statement.getResultSet();
   }
 
   @BeforeEach
@@ -185,8 +181,13 @@ class DktkFedSearchApplicationTest {
 
     Thread.sleep(30000);
 
-    var rs = performQuery("select * from samply.reply");
-    assertTrue(rs.next());
-    assertEquals(Reply.of(1), replyReader.readValue(rs.getString("content")));
+    try (var connection = createDataSource().getConnection();
+        var statement = connection.createStatement()) {
+      statement.execute("select * from samply.reply");
+      try (var rs = statement.getResultSet()) {
+        assertTrue(rs.next());
+        assertEquals(Reply.of(1), replyReader.readValue(rs.getString("content")));
+      }
+    }
   }
 }

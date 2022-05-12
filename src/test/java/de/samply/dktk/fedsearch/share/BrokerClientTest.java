@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import de.samply.dktk.fedsearch.share.broker.model.Inquiry;
 import de.samply.dktk.fedsearch.share.broker.model.Reply;
 import de.samply.dktk.fedsearch.share.util.Either;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +26,6 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectReader;
 
 @Testcontainers
-@SuppressWarnings("NewClassNamingConvention")
 class BrokerClientTest {
 
   private static final String AUTH_TOKEN = "token-131538";
@@ -39,6 +37,7 @@ class BrokerClientTest {
   private final Network network = Network.newNetwork();
 
   @Container
+  @SuppressWarnings("resource")
   private final PostgreSQLContainer<?> db = new PostgreSQLContainer<>("postgres:9.6")
       .withDatabaseName("searchbroker")
       .withUsername("searchbroker")
@@ -50,6 +49,7 @@ class BrokerClientTest {
       .withStartupAttempts(3);
 
   @Container
+  @SuppressWarnings("resource")
   private final GenericContainer<?> broker = new GenericContainer<>(
       "samply/searchbroker:feature-structureQuery")
       .withImagePullPolicy(PullPolicy.alwaysPull())
@@ -76,7 +76,8 @@ class BrokerClientTest {
   }
 
   private String brokerUrl() {
-    return "http://localhost:%d/broker/rest/searchbroker".formatted(broker.getFirstMappedPort());
+    return "http://%s:%d/broker/rest/searchbroker".formatted(broker.getHost(),
+        broker.getFirstMappedPort());
   }
 
   @Test
@@ -116,13 +117,18 @@ class BrokerClientTest {
     var result = client.saveReply(INQUIRY_ID, COUNT);
 
     assertTrue(result.isRight());
-    var rs = performQuery("select * from samply.reply");
-    assertTrue(rs.next());
-    assertEquals(Reply.of(COUNT), replyReader.readValue(rs.getString("content")));
+    try (var connection = createDataSource().getConnection();
+        var statement = connection.createStatement()) {
+      statement.execute("select * from samply.reply");
+      try (var rs = statement.getResultSet()) {
+        assertTrue(rs.next());
+        assertEquals(Reply.of(COUNT), replyReader.readValue(rs.getString("content")));
+      }
+    }
   }
 
   private void createOneInquiry() throws SQLException {
-    var ds = getDataSource();
+    var ds = createDataSource();
     var authTokenId = performInsert(ds,
         "insert into samply.authtoken (value) values ('" + AUTH_TOKEN + "')");
     var bankId = performInsert(ds,
@@ -147,22 +153,16 @@ class BrokerClientTest {
         """.formatted(inquiryId, STRUCTURED_QUERY));
   }
 
-  private ResultSet performQuery(String query) throws SQLException {
-    var ds = getDataSource();
-    var statement = ds.getConnection().createStatement();
-    statement.execute(query);
-    return statement.getResultSet();
-  }
-
   private int performInsert(DataSource ds, String sql) throws SQLException {
-    var statement = ds.getConnection().createStatement();
-    statement.execute(sql, RETURN_GENERATED_KEYS);
-    var keys = statement.getGeneratedKeys();
-    keys.next();
-    return keys.getInt(1);
+    try (var connection = ds.getConnection(); var statement = connection.createStatement()) {
+      statement.execute(sql, RETURN_GENERATED_KEYS);
+      var keys = statement.getGeneratedKeys();
+      keys.next();
+      return keys.getInt(1);
+    }
   }
 
-  private DataSource getDataSource() {
+  private DataSource createDataSource() {
     var dataSourceBuilder = DataSourceBuilder.create();
     dataSourceBuilder.driverClassName(db.getDriverClassName());
     dataSourceBuilder.url(db.getJdbcUrl());
