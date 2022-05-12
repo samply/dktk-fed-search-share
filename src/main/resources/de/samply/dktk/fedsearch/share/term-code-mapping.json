@@ -8437,5 +8437,25 @@
         "attributeFhirPath": "component.where(code.coding.exists(system = 'http://loinc.org' and code = '42030-7')).value.first()"
       }
     ]
+  },
+  {
+    "attributeSearchParameters": [
+      {
+        "attributeKey": {
+          "system": "http://dktk.dkfz.de/fhir/search",
+          "code": "administrative-gender",
+          "display": "Geschlecht"
+        },
+        "attributeFhirPath": "gender",
+        "attributeSearchParameter": "gender",
+        "attributeType": "code"
+      }
+    ],
+    "fhirResourceType": "Patient",
+    "key": {
+      "system": "http://dktk.dkfz.de/fhir/search",
+      "code": "administrative-gender",
+      "display": "Geschlecht"
+    }
   }
 ]

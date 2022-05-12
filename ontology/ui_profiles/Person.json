@@ -12,6 +12,57 @@
   ],
   "children": [
     {
+      "id": "47dd9d05-2be4-4132-b148-7849b321185b",
+      "termCodes": [
+        {
+          "system": "http://dktk.dkfz.de/fhir/search",
+          "code": "administrative-gender",
+          "display": "Geschlecht"
+        }
+      ],
+      "display": "Geschlecht",
+      "leaf": true,
+      "selectable": true,
+      "timeRestrictionAllowed": false,
+      "valueDefinitions": [],
+      "attributeDefinitions": [
+        {
+          "type": "concept",
+          "selectableConcepts": [
+            {
+              "code": "female",
+              "system": "http://hl7.org/fhir/administrative-gender",
+              "display": "Female"
+            },
+            {
+              "code": "male",
+              "system": "http://hl7.org/fhir/administrative-gender",
+              "display": "Male"
+            },
+            {
+              "code": "other",
+              "system": "http://hl7.org/fhir/administrative-gender",
+              "display": "Other"
+            },
+            {
+              "code": "unknown",
+              "system": "http://hl7.org/fhir/administrative-gender",
+              "display": "Unknown"
+            }
+          ],
+          "attributeCode": {
+            "system": "http://dktk.dkfz.de/fhir/search",
+            "code": "administrative-gender",
+            "display": "Geschlecht"
+          },
+          "optional": false,
+          "allowedUnits": [],
+          "precision": 1
+        }
+      ],
+      "children": []
+    },
+    {
       "id": "f564f7fd-222c-1827-5115-5b4b11970645",
       "display": "Vitalstatus",
       "leaf": true,

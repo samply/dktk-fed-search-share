@@ -32,16 +32,6 @@ class DktkFedSearchApplicationTest {
 
   private static final String AUTH_TOKEN = "token-131538";
   private static final String MAIL = "foo@bar.de";
-  private static final String STRUCTURED_QUERY = """
-      {
-        "inclusionCriteria": [[{
-          "termCodes": [{
-            "system": "http://fhir.de/CodeSystem/dimdi/icd-10-gm",
-            "code": "C71.1",
-            "display": "Malignant neoplasm of brain"
-          }]}]]
-      }
-      """;
 
   private static final Network network = Network.newNetwork();
 
@@ -120,7 +110,7 @@ class DktkFedSearchApplicationTest {
     registry.add("spring.datasource.url", DktkFedSearchApplicationTest::springDataSourceUrl);
   }
 
-  private static void createOneInquiry() throws SQLException {
+  private static void createOneInquiry() throws Exception {
     var ds = createDataSource();
     var authTokenId = performInsert(ds,
         "insert into samply.authtoken (value) values ('" + AUTH_TOKEN + "')");
@@ -143,7 +133,7 @@ class DktkFedSearchApplicationTest {
     performInsert(ds, """
         INSERT INTO samply.inquiry_criteria (inquiry_id, criteria, type)
         VALUES (%d, '%s', 'IC_STRUCTURED_QUERY')
-        """.formatted(inquiryId, STRUCTURED_QUERY));
+        """.formatted(inquiryId, slurp("structured-query.json").orElseThrow(Exception::new)));
   }
 
   private static int performInsert(DataSource ds, String sql) throws SQLException {
