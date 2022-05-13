@@ -1,19 +1,18 @@
 package de.samply.dktk.fedsearch.share;
 
-import static java.sql.Statement.RETURN_GENERATED_KEYS;
+import static de.samply.dktk.fedsearch.share.TestUtil.brokerBaseUrl;
+import static de.samply.dktk.fedsearch.share.TestUtil.createOneInquiry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import de.samply.dktk.fedsearch.share.broker.model.Inquiry;
 import de.samply.dktk.fedsearch.share.broker.model.Reply;
 import de.samply.dktk.fedsearch.share.util.Either;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.Network;
@@ -22,8 +21,6 @@ import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.images.PullPolicy;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectReader;
 
 @Testcontainers
 class BrokerClientTest {
@@ -45,8 +42,7 @@ class BrokerClientTest {
       .withNetwork(network)
       .withNetworkAliases("postgres")
       .waitingFor(Wait.forListeningPort())
-      .withExposedPorts(5432)
-      .withStartupAttempts(3);
+      .withExposedPorts(5432);
 
   @Container
   @SuppressWarnings("resource")
@@ -60,29 +56,23 @@ class BrokerClientTest {
       .withEnv("POSTGRES_PASS", "searchbroker")
       .withNetwork(network)
       .withExposedPorts(8080)
-      .waitingFor(Wait.forHttp("/broker/rest/health").forStatusCode(200))
-      .withStartupAttempts(3);
+      .waitingFor(Wait.forHttp("/broker/rest/health").forStatusCode(200));
 
+  private DataSource brokerDataSource;
   private BrokerClient client;
-  private ObjectReader replyReader;
 
   @BeforeEach
   void setUp() {
+    brokerDataSource = TestUtil.createDataSource(db);
     client = new BrokerClient(WebClient.builder()
-        .baseUrl(brokerUrl())
+        .baseUrl(brokerBaseUrl(broker))
         .defaultHeader("Authorization", "Samply " + AUTH_TOKEN)
         .build(), MAIL);
-    replyReader = new ObjectMapper().readerFor(Reply.class);
-  }
-
-  private String brokerUrl() {
-    return "http://%s:%d/broker/rest/searchbroker".formatted(broker.getHost(),
-        broker.getFirstMappedPort());
   }
 
   @Test
   void fetchNewInquiryIds() throws Exception {
-    createOneInquiry();
+    createOneInquiry(brokerDataSource, AUTH_TOKEN, MAIL, STRUCTURED_QUERY);
 
     List<String> inquiryIds = client.fetchNewInquiryIds().orElseThrow(Exception::new);
 
@@ -92,7 +82,7 @@ class BrokerClientTest {
   @Test
   void fetchNewInquiryIds_unauthorized() {
     var client = new BrokerClient(WebClient.builder()
-        .baseUrl(brokerUrl())
+        .baseUrl(brokerBaseUrl(broker))
         .build(), MAIL);
 
     var error = client.fetchNewInquiryIds();
@@ -102,7 +92,7 @@ class BrokerClientTest {
 
   @Test
   void fetchInquiry() throws Exception {
-    createOneInquiry();
+    createOneInquiry(brokerDataSource, AUTH_TOKEN, MAIL, STRUCTURED_QUERY);
 
     Inquiry inquiry = client.fetchInquiry(INQUIRY_ID).orElseThrow(Exception::new);
 
@@ -112,62 +102,11 @@ class BrokerClientTest {
 
   @Test
   void safeReplay() throws Exception {
-    createOneInquiry();
+    createOneInquiry(brokerDataSource, AUTH_TOKEN, MAIL, STRUCTURED_QUERY);
 
     var result = client.saveReply(INQUIRY_ID, COUNT);
 
     assertTrue(result.isRight());
-    try (var connection = createDataSource().getConnection();
-        var statement = connection.createStatement()) {
-      statement.execute("select * from samply.reply");
-      try (var rs = statement.getResultSet()) {
-        assertTrue(rs.next());
-        assertEquals(Reply.of(COUNT), replyReader.readValue(rs.getString("content")));
-      }
-    }
-  }
-
-  private void createOneInquiry() throws SQLException {
-    var ds = createDataSource();
-    var authTokenId = performInsert(ds,
-        "insert into samply.authtoken (value) values ('" + AUTH_TOKEN + "')");
-    var bankId = performInsert(ds,
-        ("insert into samply.bank (email, authtoken_id) values ('" + MAIL + "', %d)").formatted(
-            authTokenId));
-    var siteId = performInsert(ds, "insert into samply.site (name) values ('foo')");
-    performInsert(ds,
-        "insert into samply.bank_site (bank_id, site_id, approved) values (%d, %d, true)".formatted(
-            bankId, siteId
-        ));
-    var authorId = performInsert(ds,
-        "insert into samply.user (username, authid) values ('foo', 1)");
-    var inquiryId = performInsert(ds,
-        "insert into samply.inquiry (author_id, status, revision) values (%d, 'IS_RELEASED', 1)".formatted(
-            authorId));
-    performInsert(ds,
-        "insert into samply.inquiry_site (inquiry_id, site_id) values (%d, %d)".formatted(inquiryId,
-            siteId));
-    performInsert(ds, """
-        INSERT INTO samply.inquiry_criteria (inquiry_id, criteria, type)
-        VALUES (%d, '%s', 'IC_STRUCTURED_QUERY')
-        """.formatted(inquiryId, STRUCTURED_QUERY));
-  }
-
-  private int performInsert(DataSource ds, String sql) throws SQLException {
-    try (var connection = ds.getConnection(); var statement = connection.createStatement()) {
-      statement.execute(sql, RETURN_GENERATED_KEYS);
-      var keys = statement.getGeneratedKeys();
-      keys.next();
-      return keys.getInt(1);
-    }
-  }
-
-  private DataSource createDataSource() {
-    var dataSourceBuilder = DataSourceBuilder.create();
-    dataSourceBuilder.driverClassName(db.getDriverClassName());
-    dataSourceBuilder.url(db.getJdbcUrl());
-    dataSourceBuilder.username(db.getUsername());
-    dataSourceBuilder.password(db.getPassword());
-    return dataSourceBuilder.build();
+    TestUtil.assertReplyEquals(Reply.of(COUNT), brokerDataSource);
   }
 }

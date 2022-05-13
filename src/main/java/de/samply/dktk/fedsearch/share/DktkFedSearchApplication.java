@@ -21,7 +21,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.netty.http.client.HttpClient;
 
 /**
  * Main Application Entrypoint.
@@ -112,7 +114,9 @@ public class DktkFedSearchApplication {
    */
   @Bean
   public WebClient brokerWebClient() {
+    HttpClient httpClient = HttpClient.create().proxyWithSystemProperties();
     return WebClient.builder()
+        .clientConnector(new ReactorClientHttpConnector(httpClient))
         .baseUrl(brokerBaseUrl)
         .defaultHeader("Authorization", "Samply " + brokerAuthToken)
         .build();
