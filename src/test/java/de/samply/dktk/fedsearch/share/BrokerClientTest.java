@@ -47,7 +47,7 @@ class BrokerClientTest {
   @Container
   @SuppressWarnings("resource")
   private final GenericContainer<?> broker = new GenericContainer<>(
-      "samply/searchbroker:feature-structureQuery")
+      "samply/searchbroker:develop")
       .withImagePullPolicy(PullPolicy.alwaysPull())
       .dependsOn(db)
       .withEnv("POSTGRES_HOST", "postgres")
