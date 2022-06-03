@@ -51,7 +51,7 @@ class DktkFedSearchApplicationTest {
   @Container
   @SuppressWarnings("resource")
   private static final GenericContainer<?> broker = new GenericContainer<>(
-      "samply/searchbroker:feature-structureQuery")
+      "samply/searchbroker:develop")
       .withImagePullPolicy(PullPolicy.alwaysPull())
       .dependsOn(brokerDb)
       .withEnv("POSTGRES_HOST", "postgres")

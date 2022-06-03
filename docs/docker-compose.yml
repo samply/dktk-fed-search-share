@@ -12,7 +12,7 @@ services:
     - "broker-db-data:/var/lib/postgresql/data"
 
   broker:
-    image: "samply/searchbroker:feature-structureQuery"
+    image: "samply/searchbroker:develop"
     environment:
       POSTGRES_HOST: "broker-db"
       POSTGRES_DB: "searchbroker"
