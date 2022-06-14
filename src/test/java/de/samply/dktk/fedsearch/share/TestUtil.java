@@ -9,6 +9,7 @@ import ca.uhn.fhir.context.FhirContext;
 import de.samply.dktk.fedsearch.share.broker.model.Reply;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Objects;
 import javax.sql.DataSource;
 import org.hl7.fhir.r4.model.Bundle;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -97,5 +98,9 @@ public class TestUtil {
         .flatMap(s -> fhirParser.parseResource(Bundle.class, s))
         .map(fhirClient::transact)
         .orElseThrow(Exception::new);
+  }
+
+  static String getPath(String name) {
+    return Objects.requireNonNull(TestUtil.class.getResource(name)).getPath();
   }
 }

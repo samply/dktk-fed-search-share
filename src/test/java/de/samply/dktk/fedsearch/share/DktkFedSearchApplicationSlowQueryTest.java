@@ -1,6 +1,7 @@
 package de.samply.dktk.fedsearch.share;
 
 import static de.samply.dktk.fedsearch.share.ClasspathIo.slurp;
+import static de.samply.dktk.fedsearch.share.TestUtil.brokerBaseUrl;
 import static de.samply.dktk.fedsearch.share.TestUtil.createOneInquiry;
 import static de.samply.dktk.fedsearch.share.TestUtil.storeBaseUrl;
 
@@ -26,15 +27,16 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @SpringBootTest
 @Testcontainers
 @DirtiesContext
-class DktkFedSearchApplicationProxyTest {
+class DktkFedSearchApplicationSlowQueryTest {
 
   private static final Logger logger = LoggerFactory.getLogger(
-      DktkFedSearchApplicationProxyTest.class);
+      DktkFedSearchApplicationSlowQueryTest.class);
 
   private static final String AUTH_TOKEN = "token-131538";
   private static final String MAIL = "foo@bar.de";
 
   private static final Network brokerNetwork = Network.newNetwork();
+  private static final Network storeNetwork = Network.newNetwork();
 
   @Container
   @SuppressWarnings("resource")
@@ -49,7 +51,7 @@ class DktkFedSearchApplicationProxyTest {
 
   @Container
   @SuppressWarnings("resource")
-  private static final GenericContainer<?> brokerBackend = new GenericContainer<>(
+  private static final GenericContainer<?> broker = new GenericContainer<>(
       "samply/searchbroker:develop")
       .withImagePullPolicy(PullPolicy.alwaysPull())
       .dependsOn(brokerDb)
@@ -58,29 +60,8 @@ class DktkFedSearchApplicationProxyTest {
       .withEnv("POSTGRES_USER", "searchbroker")
       .withEnv("POSTGRES_PASS", "searchbroker")
       .withNetwork(brokerNetwork)
-      .withNetworkAliases("broker-backend")
-      .waitingFor(Wait.forHttp("/broker/rest/health").forStatusCode(200));
-
-  @Container
-  @SuppressWarnings("resource")
-  private static final GenericContainer<?> broker = new GenericContainer<>("nginx")
-      .withImagePullPolicy(PullPolicy.alwaysPull())
-      .dependsOn(brokerBackend)
-      .withFileSystemBind(TestUtil.getPath("nginx.conf"), "/etc/nginx/conf.d/broker.conf")
-      .withFileSystemBind(TestUtil.getPath("broker.crt"), "/etc/nginx/broker.crt")
-      .withFileSystemBind(TestUtil.getPath("broker.key"), "/etc/nginx/broker.key")
-      .withNetwork(brokerNetwork)
-      .withNetworkAliases("broker")
-      .withLogConsumer(new Slf4jLogConsumer(logger));
-
-  @Container
-  @SuppressWarnings("resource")
-  private static final GenericContainer<?> proxy = new GenericContainer<>(
-      "ubuntu/squid:5.2-22.04_beta")
-      .withImagePullPolicy(PullPolicy.alwaysPull())
-      .withNetwork(brokerNetwork)
-      .withExposedPorts(3128)
-      .waitingFor(Wait.forListeningPort())
+      .withExposedPorts(8080)
+      .waitingFor(Wait.forHttp("/broker/rest/health").forStatusCode(200))
       .withLogConsumer(new Slf4jLogConsumer(logger));
 
   @Container
@@ -88,22 +69,31 @@ class DktkFedSearchApplicationProxyTest {
   private static final GenericContainer<?> store = new GenericContainer<>("samply/blaze:0.17")
       .withImagePullPolicy(PullPolicy.alwaysPull())
       .withEnv("LOG_LEVEL", "debug")
+      .withNetwork(storeNetwork)
+      .withNetworkAliases("store")
       .withExposedPorts(8080)
       .waitingFor(Wait.forHttp("/health").forStatusCode(200));
 
-  @DynamicPropertySource
-  static void registerProperties(DynamicPropertyRegistry registry) {
-    registry.add("app.broker.baseUrl", () -> "https://broker/broker/rest/searchbroker");
-    registry.add("app.broker.authToken", () -> AUTH_TOKEN);
-    registry.add("app.broker.mail", () -> MAIL);
-    registry.add("app.store.baseUrl", () -> storeBaseUrl(store));
-    System.setProperty("http.proxyHost", proxy.getHost());
-    System.setProperty("http.proxyPort", proxy.getFirstMappedPort().toString());
-    System.setProperty("javax.net.ssl.trustStore", TestUtil.getPath("ca.jks"));
-    System.setProperty("javax.net.ssl.trustStorePassword", "password");
-  }
+  @Container
+  @SuppressWarnings("resource")
+  private static final GenericContainer<?> storeFrontend = new GenericContainer<>("nginx")
+      .withImagePullPolicy(PullPolicy.alwaysPull())
+      .dependsOn(store)
+      .withFileSystemBind(TestUtil.getPath("slow-query-nginx.conf"), "/etc/nginx/conf.d/store.conf")
+      .withNetwork(storeNetwork)
+      .withNetworkAliases("broker")
+      .withExposedPorts(8090)
+      .withLogConsumer(new Slf4jLogConsumer(logger));
 
   private DataSource brokerDataSource;
+
+  @DynamicPropertySource
+  static void registerProperties(DynamicPropertyRegistry registry) {
+    registry.add("app.broker.baseUrl", () -> brokerBaseUrl(broker));
+    registry.add("app.broker.authToken", () -> AUTH_TOKEN);
+    registry.add("app.broker.mail", () -> MAIL);
+    registry.add("app.store.baseUrl", () -> storeBaseUrl(storeFrontend));
+  }
 
   @BeforeEach
   void setUp() {
@@ -116,7 +106,7 @@ class DktkFedSearchApplicationProxyTest {
     createOneInquiry(brokerDataSource, AUTH_TOKEN, MAIL, slurp("structured-query.json")
         .orElseThrow(Exception::new));
 
-    Thread.sleep(10000);
+    Thread.sleep(90000);
 
     TestUtil.assertReplyEquals(Reply.of(1), brokerDataSource);
   }
