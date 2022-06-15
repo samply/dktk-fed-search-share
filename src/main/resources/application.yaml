@@ -5,6 +5,8 @@ app:
     mail: foo
   store:
     baseUrl: http://localhost:8100/fhir
+    # increase this depending on the longest running CQL queries
+    socketTimeout: 60000
 spring:
   datasource:
     url: jdbc:postgresql://db:5432/postgres

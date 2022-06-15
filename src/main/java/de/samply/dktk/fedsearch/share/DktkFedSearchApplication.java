@@ -41,6 +41,9 @@ public class DktkFedSearchApplication {
   @Value("${app.store.baseUrl}")
   private String storeBaseUrl;
 
+  @Value("${app.store.socketTimeout}")
+  private int storeSocketTimeout;
+
   public static void main(String... args) {
     SpringApplication.run(DktkFedSearchApplication.class, args);
   }
@@ -102,6 +105,7 @@ public class DktkFedSearchApplication {
    */
   @Bean
   public IGenericClient storeClient(FhirContext context) {
+    context.getRestfulClientFactory().setSocketTimeout(storeSocketTimeout);
     var client = context.newRestfulGenericClient(storeBaseUrl);
     client.setFormatParamStyle(RequestFormatParamStyleEnum.NONE);
     return client;

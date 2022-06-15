@@ -7,6 +7,9 @@ federated search deployment.
 
 ## Configuration
 
+* `APP_STORE_SOCKETTIMEOUT` - set the socket timeout as number of milliseconds for REST requests
+  towards the FHIR server. Defaults to 60000.
+
 ### Proxy
 
 If a proxy is needed to access the Searchbroker, please use the following Java properties to
